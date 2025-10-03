@@ -1,4 +1,4 @@
-package com.kmx3.compose.ui.mainflow
+package com.kmx3.compose.ui.navflow.mainflow
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -7,7 +7,7 @@ import com.kmx3.compose.ui.navigation.SubFlowNavigation
 
 class MainFlowNavigation(
     val navController: NavHostController,
-    onFinished: (startRoute: String) -> Unit
+    onFinished: (routeName: String) -> Unit
 ) : SubFlowNavigation(onFinished) {
     override val startRoute: String
         get() = Routes.MainScreen.route

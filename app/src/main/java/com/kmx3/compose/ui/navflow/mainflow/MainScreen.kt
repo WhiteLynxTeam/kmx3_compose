@@ -1,4 +1,4 @@
-package com.kmx3.compose.ui.mainflow
+package com.kmx3.compose.ui.navflow.mainflow
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
