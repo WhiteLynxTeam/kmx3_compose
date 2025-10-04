@@ -10,13 +10,25 @@ class StartFlowNavigation(
     onFinished: (routeName: String) -> Unit
 ) : SubFlowNavigation(onFinished) {
     override val startRoute: String
-        get() = Routes.AuthScreen.route
+        get() = Routes.IntroScreen.route
 
     override fun addFlow(builder: NavGraphBuilder) {
         with(builder) {
             composable(Routes.IntroScreen.route) {
-                IntroScreen().Render(events = object : IntroScreen.Events {})
+                VideoScreen(events = object : IntroScreenEvents {
+                    override fun onNext() {
+                        navController.navigate(Routes.AuthScreen.route)
+                    }
+                })
             }
+
+//            composable(Routes.IntroScreen.route) {
+//                VideoScreen().Render(events = object : VideoScreen.Events {
+//                    override fun onNext() {
+//                        navController.navigate(Routes.AuthScreen.route)
+//                    }
+//                })
+//            }
 
             composable(Routes.AuthScreen.route) {
                 AuthScreen().Render(events = object : AuthScreen.Events {})
