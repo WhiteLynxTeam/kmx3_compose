@@ -64,6 +64,10 @@ dependencies {
     implementation(libs.androidx.navigation)
     implementation(libs.androidx.material.icons.extended)
 
+    //ExoPlayer
+    implementation(libs.androidx.exoplayer)
+    implementation(libs.androidx.exoplayer.ui)
+
 //    implementation(libs.compose.navigation3.runtime)
 //    implementation(libs.compose.navigation3.ui)
 

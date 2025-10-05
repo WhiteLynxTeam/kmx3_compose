@@ -7,6 +7,7 @@ lifecycleRuntimeKtx = "2.9.4"
 activityCompose = "1.11.0"
 composeBom = "2025.09.01"
 materialIconsExtended = "1.7.8"
+exoPlayer = "1.8.0"
 
 navCompose = "2.9.5"
 
@@ -42,6 +43,9 @@ compose-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigati
 #androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 #androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 #androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+
+androidx-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "exoPlayer"}
+androidx-exoplayer-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "exoPlayer"}
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
