@@ -40,6 +40,24 @@ class StartFlowNavigation(
 //            }
 
             composable(Routes.AuthScreen.route) {
+
+//                AuthScreen().Render(events = object : AuthScreen.Events {
+//                    override fun onNext() {
+//                        navController.navigate(Routes.GreetingScreen.route) {
+//                            popUpTo(Routes.AuthScreen.route) { inclusive = true } // убираем экран логина
+//                            launchSingleTop = true
+//                        }
+//                    }
+//                })
+//            }
+//
+//            composable(Routes.GreetingScreen.route) {
+//                GreetingScreen(events = object : GreetingScreenEvents {
+//                    override fun onNext() {
+//                        //navController.navigate(Routes.AuthScreen.route)
+//                    }
+//                })
+
                 val viewModel = hiltViewModel<AuthScreenViewModel>()
 
                 LaunchedEffect(key1 = true) {
@@ -62,6 +80,7 @@ class StartFlowNavigation(
 //
 //
 //                AuthScreen(state = , events = object : AuthScreen.Events {})
+
             }
         }
     }
@@ -69,5 +88,6 @@ class StartFlowNavigation(
     sealed class Routes(val route: String) {
         data object IntroScreen : Routes("StartFlowNavigator.IntroScreen")
         data object AuthScreen : Routes("StartFlowNavigator.AuthScreen")
+        data object GreetingScreen : Routes("StartFlowNavigator.GreetingScreen")
     }
 }

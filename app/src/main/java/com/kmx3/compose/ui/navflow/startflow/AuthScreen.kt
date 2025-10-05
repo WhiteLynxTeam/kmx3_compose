@@ -36,15 +36,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kmx3.compose.R
 
-//class AuthScreen {
-//    @Composable
-//    fun Render(events: Events) {
-//        AuthScreen { login, pass -> Unit }
-//    }
-//
-//    interface Events
-//}
-
 @Composable
 fun AuthScreen(
     state: AuthScreenState, events: AuthScreenEvents,

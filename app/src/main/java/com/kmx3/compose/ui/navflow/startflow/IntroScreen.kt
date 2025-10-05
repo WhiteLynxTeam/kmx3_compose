@@ -99,7 +99,7 @@ fun VideoScreen(events: IntroScreenEvents) {
             )
         }
     }
-    
+
 }
 
 interface IntroScreenEvents {
