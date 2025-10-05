@@ -25,6 +25,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import androidx.core.net.toUri
 
 //class IntroScreen {
 //    @Composable
@@ -44,7 +45,7 @@ fun VideoScreen(events: IntroScreenEvents) {
     val exoPlayer = remember {
         ExoPlayer.Builder(context).build().apply {
             // Видео из ресурсов raw
-            val videoUri = Uri.parse("android.resource://${context.packageName}/raw/splash")
+            val videoUri = "android.resource://${context.packageName}/raw/splash".toUri()
             setMediaItem(MediaItem.fromUri(videoUri))
             prepare()
             playWhenReady = true // автоматическое воспроизведение
