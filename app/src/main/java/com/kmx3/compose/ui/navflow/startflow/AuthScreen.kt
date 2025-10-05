@@ -36,18 +36,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kmx3.compose.R
 
-class AuthScreen {
-    @Composable
-    fun Render(events: Events) {
-        LoginScreen { login, pass -> Unit }
-    }
-
-    interface Events
-}
+//class AuthScreen {
+//    @Composable
+//    fun Render(events: Events) {
+//        AuthScreen { login, pass -> Unit }
+//    }
+//
+//    interface Events
+//}
 
 @Composable
-fun LoginScreen(
-    onLoginClick: (String, String) -> Unit
+fun AuthScreen(
+    state: AuthScreenState, events: AuthScreenEvents,
+//    onLoginClick: (String, String) -> Unit
 ) {
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -108,13 +109,13 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Button (
+        Button(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF990042)),
-            onClick = { onLoginClick(login, password) }
+            onClick = events::onAuth
         ) {
             Text("Войти")
         }
@@ -130,8 +131,28 @@ fun LoginScreen(
     }
 }
 
-@Preview
+data class AuthScreenState(
+    val login: String,
+    val pass: String,
+    val isError: Boolean,
+    val canGoNext: Boolean
+)
+
+interface AuthScreenEvents {
+    fun onLoginEntered(name: String)
+    fun onPassEntered(name: String)
+    fun onAuth()
+}
+
+@Preview(showBackground = true)
 @Composable
 fun PreviewAuthScreen() {
-    AuthScreen().Render(object : AuthScreen.Events {})
+    AuthScreen(
+        AuthScreenState(login = "", pass = "", isError = false, canGoNext = false),
+        object : AuthScreenEvents {
+            override fun onLoginEntered(name: String) {}
+            override fun onPassEntered(name: String) {}
+            override fun onAuth() {}
+        }
+    )
 }
