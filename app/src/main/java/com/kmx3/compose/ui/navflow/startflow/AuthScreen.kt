@@ -39,10 +39,15 @@ import com.kmx3.compose.R
 class AuthScreen {
     @Composable
     fun Render(events: Events) {
-        LoginScreen { login, pass -> Unit }
+        LoginScreen { login, pass ->
+            // здесь проверка логина/пароля
+            events.onNext() // вызываем переход
+        }
     }
 
-    interface Events
+    interface Events {
+        fun onNext()
+    }
 }
 
 @Composable
@@ -133,5 +138,9 @@ fun LoginScreen(
 @Preview
 @Composable
 fun PreviewAuthScreen() {
-    AuthScreen().Render(object : AuthScreen.Events {})
+    AuthScreen().Render(object : AuthScreen.Events {
+        override fun onNext() {
+            // ничего не делаем в превью
+        }
+    })
 }
