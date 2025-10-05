@@ -1,13 +1,11 @@
 package com.kmx3.compose.ui.navflow.startflow
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -19,22 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
-import androidx.core.net.toUri
-
-//class IntroScreen {
-//    @Composable
-//    fun Render(events: Events) {
-//        VideoScreen()
-//    }
-//
-//    interface Events
-//}
 
 @androidx.annotation.OptIn(UnstableApi::class)
 @Composable
@@ -109,7 +98,6 @@ interface IntroScreenEvents {
 @Preview
 @Composable
 fun PreviewIntroScreen() {
-//    IntroScreen().Render(object : IntroScreen.Events {})
     VideoScreen(object : IntroScreenEvents {
         override fun onNext() {}
     })

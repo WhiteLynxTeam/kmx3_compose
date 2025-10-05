@@ -31,14 +31,6 @@ class StartFlowNavigation(
                 })
             }
 
-//            composable(Routes.IntroScreen.route) {
-//                VideoScreen().Render(events = object : VideoScreen.Events {
-//                    override fun onNext() {
-//                        navController.navigate(Routes.AuthScreen.route)
-//                    }
-//                })
-//            }
-
             composable(Routes.AuthScreen.route) {
 
 //                AuthScreen().Render(events = object : AuthScreen.Events {
@@ -51,12 +43,7 @@ class StartFlowNavigation(
 //                })
 //            }
 //
-//            composable(Routes.GreetingScreen.route) {
-//                GreetingScreen(events = object : GreetingScreenEvents {
-//                    override fun onNext() {
-//                        //navController.navigate(Routes.AuthScreen.route)
-//                    }
-//                })
+
 
                 val viewModel = hiltViewModel<AuthScreenViewModel>()
 
@@ -64,7 +51,12 @@ class StartFlowNavigation(
                     viewModel.events.collectLatest { event ->
                         when (event) {
                             is AuthScreenViewModel.Events.Auth -> {
-                                finishFlow()
+                                navController.navigate(Routes.GreetingScreen.route) {
+                                    popUpTo(Routes.AuthScreen.route) {
+                                        inclusive = true
+                                    } // убираем экран логина
+                                    launchSingleTop = true
+                                }
                             }
                             is AuthScreenViewModel.Events.Exit -> {
                                 navController.popBackStack()
@@ -75,12 +67,14 @@ class StartFlowNavigation(
 
                 val state by viewModel.state.collectAsState()
                 AuthScreen(state, viewModel)
+            }
 
-//                val viewModel = hiltViewModel(backStackEntry, null)
-//
-//
-//                AuthScreen(state = , events = object : AuthScreen.Events {})
-
+            composable(Routes.GreetingScreen.route) {
+                GreetingScreen(events = object : GreetingScreenEvents {
+                    override fun onNext() {
+                        finishFlow()
+                    }
+                })
             }
         }
     }
