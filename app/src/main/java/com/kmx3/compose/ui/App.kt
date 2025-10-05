@@ -20,7 +20,11 @@ class App @Inject constructor() {
 
         val startFlowNavigation =
             StartFlowNavigation(navController) {
-                // nothing here - not supposed to end
+                navController.navigate(mainFlowNavigation.startRoute) {
+                    popUpTo(StartFlowNavigation.Routes.AuthScreen.route) {
+                        inclusive = true
+                    }
+                }
             }
 
         val flows: NavGraphBuilder.() -> Unit = {
