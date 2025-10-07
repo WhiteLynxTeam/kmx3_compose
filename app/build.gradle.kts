@@ -68,6 +68,8 @@ dependencies {
     implementation(libs.androidx.exoplayer)
     implementation(libs.androidx.exoplayer.ui)
 
+    implementation(libs.google.accompanist)
+
 //    implementation(libs.compose.navigation3.runtime)
 //    implementation(libs.compose.navigation3.ui)
 

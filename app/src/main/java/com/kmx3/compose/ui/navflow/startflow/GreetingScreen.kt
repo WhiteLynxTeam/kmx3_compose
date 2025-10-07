@@ -11,16 +11,24 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kmx3.compose.R
+import kotlinx.coroutines.delay
 
 @Composable
 fun GreetingScreen(events: GreetingScreenEvents) {
     val name = "Мария"
+
+    LaunchedEffect(Unit) {
+        delay(1500)
+        events.onNext()
+    }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {

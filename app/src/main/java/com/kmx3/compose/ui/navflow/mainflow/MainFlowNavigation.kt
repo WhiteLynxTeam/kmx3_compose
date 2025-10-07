@@ -3,6 +3,8 @@ package com.kmx3.compose.ui.navflow.mainflow
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.kmx3.compose.ui.navflow.startflow.GreetingScreen
+import com.kmx3.compose.ui.navflow.startflow.GreetingScreenEvents
 import com.kmx3.compose.ui.navigation.SubFlowNavigation
 
 class MainFlowNavigation(
@@ -15,7 +17,10 @@ class MainFlowNavigation(
     override fun addFlow(builder: NavGraphBuilder) {
         with(builder) {
             composable(Routes.MainScreen.route) {
-                MainScreen().Render(events = object : MainScreen.Events {})
+                MainScreen(
+                    events = object : MainScreenEvents {
+                        override fun onNext() {  }
+                    })
             }
         }
     }
