@@ -37,13 +37,13 @@ fun MainScreen(
                 navController = navController,
                 startDestination = BottomNavItem.Showcase.route
             ) {
-                composable(BottomNavItem.Showcase.route) { ShowcaseScreen(
-                    onRequestQuotaClick = { /* обработка */ },
-                    onFilterClick = { /* обработка */ }
+/*                composable(BottomNavItem.Showcase.route) { ShowcaseScreen(
+                    onRequestQuotaClick = { *//* обработка *//* },
+                    onFilterClick = { *//* обработка *//* }
                 ) }
                 composable(BottomNavItem.Favorites.route) { FavoritesScreen() }
                 composable(BottomNavItem.Invitations.route) { InvitationsScreen() }
-                composable(BottomNavItem.Quotas.route) { QuotasScreen() }
+                composable(BottomNavItem.Quotas.route) { QuotasScreen() }*/
             }
         }
     }
