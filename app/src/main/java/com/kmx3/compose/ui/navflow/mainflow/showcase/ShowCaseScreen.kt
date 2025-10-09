@@ -1,7 +1,6 @@
 package com.kmx3.compose.ui.navflow.mainflow.showcase
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,21 +11,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -36,7 +30,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,7 +39,9 @@ import androidx.compose.ui.unit.sp
 import com.kmx3.compose.R
 import com.kmx3.compose.ui.models.Candidate
 import com.kmx3.compose.ui.navflow.mainflow.MainFlowNavigation
+import com.kmx3.compose.ui.navflow.mainflow.main_navigation.UserProfileTopBar
 import com.kmx3.compose.ui.navflow.mainflow.menu.BottomMenu
+import com.kmx3.compose.ui.theme.BorderGreen
 import com.kmx3.compose.ui.theme.Bordo
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,7 +81,10 @@ fun ShowcaseScreen(
                 "Введение в профессию риелтор"
             ),
             achievements = mapOf(
-                "Объекты" to 7
+                "Объекты" to 7,
+                "Лиды" to 3,
+                "Сделки" to 2,
+                "Покупатели" to 1
             )
         ),
         Candidate(
@@ -105,7 +103,7 @@ fun ShowcaseScreen(
         ),
         Candidate(
             name = "Романова Мария Ивановна",
-            age = 22,
+            age = 31,
             photoUrl = "img_avatar", // используем ресурс drawable
             resumeUrl = "https://example.com/resume_maria", // заглушка, можно оставить null
             courses = listOf(
@@ -163,7 +161,9 @@ fun ShowcaseScreen(
         "Курс \"Налогобложение\""
     )
 
-    val sheetState = rememberModalBottomSheetState()
+    val sheetFilterState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
     var showFilterSheet by remember { mutableStateOf(false) } // For filter sheet
     var showSortSheet by remember { mutableStateOf(false) }
 
@@ -174,7 +174,11 @@ fun ShowcaseScreen(
         MainFlowNavigation.Routes.QuotasScreen,
     )
 
+    val quotasCount = 2
+    val candidatesCount = 5
+
     Scaffold(
+        topBar = { UserProfileTopBar() },
         bottomBar = {
             BottomMenu(
                 items = items,
@@ -192,13 +196,49 @@ fun ShowcaseScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Surface(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(72.dp),
+                        color = Color.Transparent,
+                        border = BorderStroke(2.dp, BorderGreen)
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            Text(text = "Квоты $quotasCount", fontSize = 18.sp, color = Color.Black)
+                        }
+                    }
+
+                    Surface(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(72.dp),
+                        color = Color.Transparent,
+                        border = BorderStroke(2.dp, BorderGreen)
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            Text(text = "Кандидаты $candidatesCount", fontSize = 18.sp, color = Color.Black)
+                        }
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(horizontal = 8.dp, vertical = 12.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = "Витрина кандидатов",
-                        color = Color(0xFF9D0042), // бордовый
+                        color = Bordo, // бордовый
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -212,7 +252,10 @@ fun ShowcaseScreen(
                         ),
                         shape = RoundedCornerShape(10.dp)
                     ) {
-                        Text("Запросить квоты")
+                        Text(
+                            "Запросить квоты",
+                            fontSize = 12.sp
+                        )
                     }
                 }
                 Row(
@@ -257,7 +300,7 @@ fun ShowcaseScreen(
                     }
                     if (showFilterSheet) {
                         FilterBottomSheet(
-                            sheetState = sheetState,
+                            sheetState = sheetFilterState,
                             minAge = minAge,
                             maxAge = maxAge,
                             onMinAgeChange = { minAge = it },
@@ -278,115 +321,7 @@ fun ShowcaseScreen(
                         )
                     }
                 }
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(candidates) { candidate ->
-                        Card(
-                            border = BorderStroke(1.dp, Color(0xFFB4ED50)),
-                            shape = RoundedCornerShape(0.dp),
-                            modifier = Modifier
-                                .padding(10.dp)
-                                .fillMaxWidth(),
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color.White // Любой нужный цвет, например светло-серый
-                            )
-                        ) {
-                            Column(modifier = Modifier.padding(16.dp)) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    candidate.photoUrl?.let {
-                                        Image(
-                                            painter = painterResource(id = R.drawable.img_avatar),
-                                            contentDescription = null,
-                                            modifier = Modifier
-                                                .size(40.dp)
-                                                .clip(CircleShape)
-                                        )
-                                    }
-                                    Spacer(Modifier.width(12.dp))
-                                    Column {
-                                        Text(
-                                            candidate.name,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 20.sp
-                                        )
-                                        Row {
-                                            Text("${candidate.age} года", color = Color.Gray)
-                                            Spacer(Modifier.width(24.dp))
-                                            candidate.resumeUrl?.let {
-                                                Text("Ссылка на резюме", color = Bordo)
-                                            }
-                                        }
-                                    }
-                                    Spacer(Modifier.weight(1f))
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_favorites),
-                                        contentDescription = null,
-                                        tint = Bordo
-                                    )
-                                }
-                                Spacer(Modifier.height(10.dp))
-                                Text("МИЭЛЬ ПрактикУМ", color = Bordo, fontWeight = FontWeight.Bold)
-                                candidate.courses.forEach {
-                                    Row {
-                                        Box(
-                                            Modifier
-                                                .size(14.dp)
-                                                .background(Bordo)
-                                        )
-                                        Spacer(Modifier.width(8.dp))
-                                        Text(it)
-                                    }
-                                }
-                                Spacer(Modifier.height(7.dp))
-                                Text("Достижения", color = Bordo, fontWeight = FontWeight.Bold)
-                                // Выравнивание в две колонки
-                                val (left, right) = candidate.achievements.entries.partition {
-                                    it.key in listOf("Объекты", "Лиды", "Сделки")
-                                }
-                                Row {
-                                    Column(Modifier.weight(1f)) {
-                                        left.forEach { (label, value) ->
-                                            Row {
-                                                Box(
-                                                    Modifier
-                                                        .size(14.dp)
-                                                        .background(Bordo)
-                                                )
-                                                Spacer(Modifier.width(8.dp))
-                                                Text("$label $value")
-                                            }
-                                        }
-                                    }
-                                    Column(Modifier.weight(1f)) {
-                                        right.forEach { (label, value) ->
-                                            Row {
-                                                Box(
-                                                    Modifier
-                                                        .size(14.dp)
-                                                        .background(Bordo)
-                                                )
-                                                Spacer(Modifier.width(8.dp))
-                                                Text("$label $value")
-                                            }
-                                        }
-                                    }
-                                }
-                                Spacer(Modifier.height(16.dp))
-                                Box(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Button(
-                                        onClick = { /* TODO */ },
-                                        shape = RoundedCornerShape(10.dp),
-                                        colors = ButtonDefaults.buttonColors(containerColor = Bordo),
-                                        modifier = Modifier.fillMaxWidth(0.445f)
-                                    ) { Text("Пригласить", color = Color.White) }
-                                }
-
-                            }
-                        }
-                    }
-                }
+                CandidatesLazyColumn(candidates)
             }
         }
     }
@@ -413,4 +348,14 @@ fun PreviewShowcaseScreen() {
         },
         state = ShowcaseScreenState(value = "")
     )
+}
+
+fun pluralizeAge(age: String): String {
+    val ageInt = age.toIntOrNull() ?: return age
+    return when {
+        ageInt % 100 in 11..14 -> "$age лет"    // 11-14, 111-114 лет
+        ageInt % 10 == 1 -> "$age год"          // 1, 21, 31... год
+        ageInt % 10 in 2..4 -> "$age года"      // 2-4, 22-24... года
+        else -> "$age лет"                      // 5-10, 15-20... лет
+    }
 }

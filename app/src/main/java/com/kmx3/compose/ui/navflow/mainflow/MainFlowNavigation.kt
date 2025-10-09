@@ -4,6 +4,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.kmx3.compose.R
+import com.kmx3.compose.ui.navflow.mainflow.favorites.FavoritesScreen
+import com.kmx3.compose.ui.navflow.mainflow.favorites.FavoritesScreenEvents
+import com.kmx3.compose.ui.navflow.mainflow.favorites.FavoritesScreenState
 import com.kmx3.compose.ui.navflow.mainflow.showcase.ShowcaseScreen
 import com.kmx3.compose.ui.navflow.mainflow.showcase.ShowcaseScreenEvents
 import com.kmx3.compose.ui.navflow.mainflow.showcase.ShowcaseScreenState
@@ -26,6 +29,16 @@ class MainFlowNavigation(
                         }
                     },
                     state = ShowcaseScreenState(value = "")
+                )
+            }
+            composable(Routes.FavoritesScreen.route) {
+                FavoritesScreen(
+                    events = object : FavoritesScreenEvents {
+                        override fun onRequestQuota() {
+
+                        }
+                    },
+                    state = FavoritesScreenState(value = "")
                 )
             }
         }
