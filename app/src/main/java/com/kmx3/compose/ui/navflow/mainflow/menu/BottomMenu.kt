@@ -15,19 +15,24 @@ import com.kmx3.compose.ui.theme.Bordo
 
 @Composable
 fun BottomMenu(
-    items: List<MainFlowNavigation.Routes>,
+//    items: List<MainFlowNavigation.Routes>,
     selected: MainFlowNavigation.Routes,
-//    modifier: Modifier = Modifier,
     onSelect: (item: MainFlowNavigation.Routes) -> Unit,
 ) {
+    val items = MainFlowNavigation.Routes.allRoutes
+
     NavigationBar(
         containerColor = Bordo
     ) {
         items.forEach { item ->
+
             val isSelected = item == selected
             NavigationBarItem(
                 selected = isSelected,
-                onClick = { onSelect(item) },
+                onClick = {
+                    println("Bottom menu item - $item")
+                    onSelect(item)
+                          },
                 icon = {
                     Icon(
                         painter = painterResource(
@@ -62,14 +67,8 @@ fun BottomMenu(
 @Preview(showBackground = true)
 @Composable
 fun BottomMenuPreview() {
-    val items = listOf(
-        MainFlowNavigation.Routes.ShowcaseScreen,
-        MainFlowNavigation.Routes.FavoritesScreen,
-        MainFlowNavigation.Routes.InvitationsScreen,
-        MainFlowNavigation.Routes.QuotasScreen,
-    )
+
     BottomMenu(
-        items = items,
         selected = MainFlowNavigation.Routes.ShowcaseScreen,
         onSelect = {}
         )
@@ -78,14 +77,8 @@ fun BottomMenuPreview() {
 @Preview(showBackground = true)
 @Composable
 fun BottomMenuPreview2() {
-    val items = listOf(
-        MainFlowNavigation.Routes.ShowcaseScreen,
-        MainFlowNavigation.Routes.FavoritesScreen,
-        MainFlowNavigation.Routes.InvitationsScreen,
-        MainFlowNavigation.Routes.QuotasScreen,
-    )
+
     BottomMenu(
-        items = items,
         selected = MainFlowNavigation.Routes.InvitationsScreen,
         onSelect = {}
         )

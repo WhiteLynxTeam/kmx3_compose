@@ -24,6 +24,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -37,6 +38,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kmx3.compose.R
+import com.kmx3.compose.ui.navflow.mainflow.MainFlowNavigation
+import com.kmx3.compose.ui.navflow.mainflow.main_navigation.UserProfileTopBar
+import com.kmx3.compose.ui.navflow.mainflow.menu.BottomMenu
 import com.kmx3.compose.ui.theme.Bordo
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,46 +67,58 @@ fun InvitationsScreen(
         )
     )
 
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "История приглашений",
-                color = Bordo,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+    Scaffold(
+        topBar = { UserProfileTopBar() },
+        bottomBar = {
+            BottomMenu(
+                selected = MainFlowNavigation.Routes.InvitationsScreen,
+                onSelect = events::onSelectBottomMenu
             )
-            Button(
-                modifier = Modifier
-                    .height(36.dp),
-                onClick = events::onRequestQuota,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Bordo,
-                    contentColor = Color.White
-                ),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Text(
-                    "Запросить квоты",
-                    fontSize = 12.sp
-                )
-            }
         }
-        LazyColumn {
-            items(candidates) { candidate ->
-                CandidateStatusRow(candidate)
-                VerticalDivider()
+    ) { innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp, vertical = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "История приглашений",
+                        color = Bordo,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Button(
+                        modifier = Modifier
+                            .height(36.dp),
+                        onClick = events::onRequestQuota,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Bordo,
+                            contentColor = Color.White
+                        ),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Text(
+                            "Запросить квоты",
+                            fontSize = 12.sp
+                        )
+                    }
+                }
+                LazyColumn {
+                    items(candidates) { candidate ->
+                        CandidateStatusRow(candidate)
+                        VerticalDivider()
+                    }
+                }
             }
+
         }
     }
 
@@ -114,6 +130,7 @@ data class InvitationsScreenState(
 
 interface InvitationsScreenEvents {
     fun onRequestQuota()
+    fun onSelectBottomMenu(item: MainFlowNavigation.Routes)
 }
 
 @Preview(showBackground = true)
@@ -123,6 +140,8 @@ fun PreviewInvitationsScreen() {
         events = object : InvitationsScreenEvents {
             override fun onRequestQuota() {
 
+            }
+            override fun onSelectBottomMenu(item: MainFlowNavigation.Routes) {
             }
         },
         state = InvitationsScreenState(value = "")

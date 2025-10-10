@@ -21,6 +21,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,6 +37,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kmx3.compose.R
+import com.kmx3.compose.ui.navflow.mainflow.MainFlowNavigation
+import com.kmx3.compose.ui.navflow.mainflow.main_navigation.UserProfileTopBar
+import com.kmx3.compose.ui.navflow.mainflow.menu.BottomMenu
 import com.kmx3.compose.ui.theme.Bordo
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,71 +82,84 @@ fun QuotasScreen(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Статистика квот",
-                color = Bordo,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+    Scaffold(
+        topBar = { UserProfileTopBar() },
+        bottomBar = {
+            BottomMenu(
+                selected = MainFlowNavigation.Routes.QuotasScreen,
+                onSelect = events::onSelectBottomMenu
             )
-            Button(
+        }
+    ) { innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            Column(
                 modifier = Modifier
-                    .height(36.dp),
-                onClick = events::onRequestQuota,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Bordo,
-                    contentColor = Color.White
-                ),
-                shape = RoundedCornerShape(10.dp)
+                    .fillMaxSize()
+                    .background(Color.White)
             ) {
-                Text(
-                    "Запросить квоты",
-                    fontSize = 12.sp
-                )
-            }
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 12.dp),
-            contentAlignment = Alignment.TopEnd
-        ) {
-            Button (
-                onClick =  { sheetOpened = true },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black
-                ),
-                border = BorderStroke(1.dp, Color.LightGray),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Icon(painter = painterResource(id = R.drawable.ic_arrow_down), null)
-                Spacer(Modifier.width(8.dp))
-                Text(
-                    selectedPeriod,
-                    style = MaterialTheme.typography.labelLarge
-                )
-            }
-        }
-        Column(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
-        ) {
-            InfoLine("Количество выданных квот за период", "5")
-            InfoLine("Количество использованных квот за период", "3")
-            InfoLine("Количество приглашённых на собеседование за период", "10")
-        }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp, vertical = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Статистика квот",
+                        color = Bordo,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Button(
+                        modifier = Modifier
+                            .height(36.dp),
+                        onClick = events::onRequestQuota,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Bordo,
+                            contentColor = Color.White
+                        ),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Text(
+                            "Запросить квоты",
+                            fontSize = 12.sp
+                        )
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp, vertical = 12.dp),
+                    contentAlignment = Alignment.TopEnd
+                ) {
+                    Button(
+                        onClick = { sheetOpened = true },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White,
+                            contentColor = Color.Black
+                        ),
+                        border = BorderStroke(1.dp, Color.LightGray),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Icon(painter = painterResource(id = R.drawable.ic_arrow_down), null)
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            selectedPeriod,
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
+                }
+                Column(
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
+                ) {
+                    InfoLine("Количество выданных квот за период", "5")
+                    InfoLine("Количество использованных квот за период", "3")
+                    InfoLine("Количество приглашённых на собеседование за период", "10")
+                }
 
+            }
+
+        }
     }
 }
 
@@ -161,6 +178,7 @@ data class QuotasScreenState(
 
 interface QuotasScreenEvents {
     fun onRequestQuota()
+    fun onSelectBottomMenu(item: MainFlowNavigation.Routes)
 }
 
 @Preview(showBackground = true)
@@ -170,6 +188,9 @@ fun PreviewQuotasScreen() {
         events = object : QuotasScreenEvents {
             override fun onRequestQuota() {
 
+            }
+
+            override fun onSelectBottomMenu(item: MainFlowNavigation.Routes) {
             }
         },
         state = QuotasScreenState(value = "")

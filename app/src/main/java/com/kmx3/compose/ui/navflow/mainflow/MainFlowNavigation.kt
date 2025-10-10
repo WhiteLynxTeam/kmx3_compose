@@ -1,49 +1,131 @@
 package com.kmx3.compose.ui.navflow.mainflow
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.kmx3.compose.R
 import com.kmx3.compose.ui.navflow.mainflow.favorites.FavoritesScreen
-import com.kmx3.compose.ui.navflow.mainflow.favorites.FavoritesScreenEvents
-import com.kmx3.compose.ui.navflow.mainflow.favorites.FavoritesScreenState
+import com.kmx3.compose.ui.navflow.mainflow.favorites.FavoritesScreenViewModel
 import com.kmx3.compose.ui.navflow.mainflow.invitations.InvitationsScreen
-import com.kmx3.compose.ui.navflow.mainflow.invitations.InvitationsScreenEvents
-import com.kmx3.compose.ui.navflow.mainflow.invitations.InvitationsScreenState
-import com.kmx3.compose.ui.navflow.mainflow.main_navigation.UserProfileTopBar
-import com.kmx3.compose.ui.navflow.mainflow.menu.BottomMenu
+import com.kmx3.compose.ui.navflow.mainflow.invitations.InvitationsScreenViewModel
 import com.kmx3.compose.ui.navflow.mainflow.quotas.QuotasScreen
-import com.kmx3.compose.ui.navflow.mainflow.quotas.QuotasScreenEvents
-import com.kmx3.compose.ui.navflow.mainflow.quotas.QuotasScreenState
+import com.kmx3.compose.ui.navflow.mainflow.quotas.QuotasScreenViewModel
+import com.kmx3.compose.ui.navflow.mainflow.showcase.ShowCaseScreenViewModel
 import com.kmx3.compose.ui.navflow.mainflow.showcase.ShowcaseScreen
-import com.kmx3.compose.ui.navflow.mainflow.showcase.ShowcaseScreenEvents
-import com.kmx3.compose.ui.navflow.mainflow.showcase.ShowcaseScreenState
 import com.kmx3.compose.ui.navigation.SubFlowNavigation
+import kotlinx.coroutines.flow.collectLatest
 
 class MainFlowNavigation(
     val navController: NavHostController,
     onFinished: (routeName: String) -> Unit
 ) : SubFlowNavigation(onFinished) {
+//    var currentRoute = Routes.ShowcaseScreen
+
     override val startRoute: String
-        get() = "main_flow_scaffold"
+        get() = Routes.ShowcaseScreen.route
 
     override fun addFlow(builder: NavGraphBuilder) {
         with(builder) {
-            composable("main_flow_scaffold") {
-                MainFlowScaffold()
+            composable(Routes.ShowcaseScreen.route) {
+                val viewModel = hiltViewModel<ShowCaseScreenViewModel>()
+
+                LaunchedEffect(key1 = true) {
+                    viewModel.events.collectLatest { event ->
+                        when (event) {
+                            is ShowCaseScreenViewModel.Events.SelectBottomMenu -> {
+                                navController.navigate(event.item.route)
+                            }
+
+                        }
+                    }
+                }
+
+                val state by viewModel.state.collectAsState()
+                ShowcaseScreen(state, viewModel)
+            }
+            composable(Routes.FavoritesScreen.route) {
+                val viewModel = hiltViewModel<FavoritesScreenViewModel>()
+
+                LaunchedEffect(key1 = true) {
+                    viewModel.events.collectLatest { event ->
+                        when (event) {
+                            is FavoritesScreenViewModel.Events.SelectBottomMenu -> {
+                                navController.navigate(event.item.route)
+                            }
+
+                        }
+                    }
+                }
+
+                val state by viewModel.state.collectAsState()
+                FavoritesScreen(state, viewModel)
+
+/*                FavoritesScreen(
+                    events = object : FavoritesScreenEvents {
+                        override fun onRequestQuota() {
+
+                        }
+                    },
+                    state = FavoritesScreenState(value = "")
+                )*/
+            }
+            composable(Routes.InvitationsScreen.route) {
+                val viewModel = hiltViewModel<InvitationsScreenViewModel>()
+
+                LaunchedEffect(key1 = true) {
+                    viewModel.events.collectLatest { event ->
+                        when (event) {
+                            is InvitationsScreenViewModel.Events.SelectBottomMenu -> {
+                                navController.navigate(event.item.route)
+                            }
+
+                        }
+                    }
+                }
+
+                val state by viewModel.state.collectAsState()
+                InvitationsScreen(state, viewModel)
+/*                InvitationsScreen(
+                    events = object : InvitationsScreenEvents {
+                        override fun onRequestQuota() {
+                            // Логика обработки
+                        }
+                    },
+                    state = InvitationsScreenState(value = "")
+                )*/
+            }
+            composable(Routes.QuotasScreen.route) {
+                val viewModel = hiltViewModel<QuotasScreenViewModel>()
+
+                LaunchedEffect(key1 = true) {
+                    viewModel.events.collectLatest { event ->
+                        when (event) {
+                            is QuotasScreenViewModel.Events.SelectBottomMenu -> {
+                                navController.navigate(event.item.route)
+                            }
+
+                        }
+                    }
+                }
+
+                val state by viewModel.state.collectAsState()
+                QuotasScreen(state, viewModel)
+/*                QuotasScreen(
+                    events = object : QuotasScreenEvents {
+                        override fun onRequestQuota() {
+                            // Логика обработки
+                        }
+                    },
+                    state = QuotasScreenState(value = "")
+                )*/
             }
         }
     }
-
+/*
     @Composable
     fun MainFlowScaffold() {
         val innerNavController = rememberNavController()
@@ -74,49 +156,10 @@ class MainFlowNavigation(
                 startDestination = Routes.ShowcaseScreen.route,
                 modifier = Modifier.padding(innerPadding)
             ) {
-                composable(Routes.ShowcaseScreen.route) {
-                    ShowcaseScreen(
-                        events = object : ShowcaseScreenEvents {
-                            override fun onRequestQuota() {
 
-                            }
-                        },
-                        state = ShowcaseScreenState(value = "")
-                    )
-                }
-                composable(Routes.FavoritesScreen.route) {
-                    FavoritesScreen(
-                        events = object : FavoritesScreenEvents {
-                            override fun onRequestQuota() {
-
-                            }
-                        },
-                        state = FavoritesScreenState(value = "")
-                    )
-                }
-                composable(Routes.InvitationsScreen.route) {
-                    InvitationsScreen(
-                        events = object : InvitationsScreenEvents {
-                            override fun onRequestQuota() {
-                                // Логика обработки
-                            }
-                        },
-                        state = InvitationsScreenState(value = "")
-                    )
-                }
-                composable(Routes.QuotasScreen.route) {
-                    QuotasScreen(
-                        events = object : QuotasScreenEvents {
-                            override fun onRequestQuota() {
-                                // Логика обработки
-                            }
-                        },
-                        state = QuotasScreenState(value = "")
-                    )
-                }
             }
         }
-    }
+    }*/
 
     sealed class Routes(
         val route: String,
@@ -148,13 +191,24 @@ class MainFlowNavigation(
             iconInactive = R.drawable.ic_quotas_inactive,
             label = "Квоты",
             )
+
         companion object {
-            val allRoutes = listOf(
-                ShowcaseScreen,
-                FavoritesScreen,
-                InvitationsScreen,
-                QuotasScreen
-            )
+            //Использовать val с ленивой инициализацией (by lazy),
+            // чтобы доступ к объектам в списке происходил после полной инициализации всех объектов.
+
+            //без lazy первый элемент был null
+
+            //Для надежного кода избегай прямого доступа к объектам sealed class
+            // в статической инициализации companion без ленивой обёртки
+
+            val allRoutes: List<Routes> by lazy {
+                listOf(
+                    ShowcaseScreen,
+                    FavoritesScreen,
+                    InvitationsScreen,
+                    QuotasScreen,
+                )
+            }
         }
     }
 }

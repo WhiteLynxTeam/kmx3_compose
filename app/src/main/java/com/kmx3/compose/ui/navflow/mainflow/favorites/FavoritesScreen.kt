@@ -19,6 +19,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -36,6 +37,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kmx3.compose.R
 import com.kmx3.compose.ui.models.Candidate
+import com.kmx3.compose.ui.navflow.mainflow.MainFlowNavigation
+import com.kmx3.compose.ui.navflow.mainflow.main_navigation.UserProfileTopBar
+import com.kmx3.compose.ui.navflow.mainflow.menu.BottomMenu
 import com.kmx3.compose.ui.navflow.mainflow.showcase.CandidatesLazyColumn
 import com.kmx3.compose.ui.navflow.mainflow.showcase.FilterBottomSheet
 import com.kmx3.compose.ui.navflow.mainflow.showcase.SortBottomSheet
@@ -163,105 +167,118 @@ fun FavoritesScreen(
     var showFilterSheet by remember { mutableStateOf(false) } // For filter sheet
     var showSortSheet by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Избранное",
-                color = Bordo,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+    Scaffold(
+        topBar = { UserProfileTopBar() },
+        bottomBar = {
+            BottomMenu(
+                selected = MainFlowNavigation.Routes.FavoritesScreen,
+                onSelect = events::onSelectBottomMenu
             )
-            Button(
+        }
+    ) { innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            Column(
                 modifier = Modifier
-                    .height(36.dp),
-                onClick = events::onRequestQuota,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Bordo,
-                    contentColor = Color.White
-                ),
-                shape = RoundedCornerShape(10.dp)
+                    .fillMaxSize()
+                    .background(Color.White)
             ) {
-                Text(
-                    "Запросить квоты",
-                    fontSize = 12.sp
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp, vertical = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Избранное",
+                        color = Bordo,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Button(
+                        modifier = Modifier
+                            .height(36.dp),
+                        onClick = events::onRequestQuota,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Bordo,
+                            contentColor = Color.White
+                        ),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Text(
+                            "Запросить квоты",
+                            fontSize = 12.sp
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    IconButton(onClick = { showSheet = true }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_sort),
+                            contentDescription = "Сортировка"
+                        )
+                    }
+                    if (showSheet) {
+                        SortBottomSheet(
+                            sheetState = sheetSortState,
+                            selectedOption = selectedOption,
+                            onSelect = {
+                                selectedOption = it
+                                showSheet = false
+                            },
+                            onDismiss = { showSheet = false }
+                        )
+                    }
+                    Spacer(Modifier.width(16.dp))
+                    Button(
+                        onClick = { showFilterSheet = true },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White,
+                            contentColor = Color.Black
+                        ),
+                        border = BorderStroke(1.dp, Color.LightGray),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Icon(
+                            painterResource(R.drawable.ic_filter),
+                            contentDescription = "Фильтр"
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text("Фильтр")
+                    }
+                    if (showFilterSheet) {
+                        FilterBottomSheet(
+                            sheetState = sheetFilterState,
+                            minAge = minAge,
+                            maxAge = maxAge,
+                            onMinAgeChange = { minAge = it },
+                            onMaxAgeChange = { maxAge = it },
+                            selectedCourses = selectedCourses,
+                            allCourses = allCourses,
+                            onCourseToggle = { course ->
+                                selectedCourses = if (selectedCourses.contains(course)) {
+                                    selectedCourses - course
+                                } else {
+                                    selectedCourses + course
+                                }
+                            },
+                            onApply = {
+                                showFilterSheet = false
+                            },
+                            onDismiss = { showFilterSheet = false }
+                        )
+                    }
+                }
+                CandidatesLazyColumn(candidates)
             }
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            IconButton(onClick = { showSheet = true }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_sort),
-                    contentDescription = "Сортировка"
-                )
-            }
-            if (showSheet) {
-                SortBottomSheet(
-                    sheetState = sheetSortState,
-                    selectedOption = selectedOption,
-                    onSelect = {
-                        selectedOption = it
-                        showSheet = false
-                    },
-                    onDismiss = { showSheet = false }
-                )
-            }
-            Spacer(Modifier.width(16.dp))
-            Button(
-                onClick = { showFilterSheet = true },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black
-                ),
-                border = BorderStroke(1.dp, Color.LightGray),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Icon(
-                    painterResource(R.drawable.ic_filter),
-                    contentDescription = "Фильтр"
-                )
-                Spacer(Modifier.width(8.dp))
-                Text("Фильтр")
-            }
-            if (showFilterSheet) {
-                FilterBottomSheet(
-                    sheetState = sheetFilterState,
-                    minAge = minAge,
-                    maxAge = maxAge,
-                    onMinAgeChange = { minAge = it },
-                    onMaxAgeChange = { maxAge = it },
-                    selectedCourses = selectedCourses,
-                    allCourses = allCourses,
-                    onCourseToggle = { course ->
-                        selectedCourses = if (selectedCourses.contains(course)) {
-                            selectedCourses - course
-                        } else {
-                            selectedCourses + course
-                        }
-                    },
-                    onApply = {
-                        showFilterSheet = false
-                    },
-                    onDismiss = { showFilterSheet = false }
-                )
-            }
-        }
-        CandidatesLazyColumn(candidates)
     }
+
 }
 
 data class FavoritesScreenState(
@@ -270,6 +287,7 @@ data class FavoritesScreenState(
 
 interface FavoritesScreenEvents {
     fun onRequestQuota()
+    fun onSelectBottomMenu(item: MainFlowNavigation.Routes)
 }
 
 @Preview(showBackground = true)
@@ -279,6 +297,9 @@ fun PreviewInvitationsScreen() {
         events = object : FavoritesScreenEvents {
             override fun onRequestQuota() {
 
+            }
+
+            override fun onSelectBottomMenu(item: MainFlowNavigation.Routes) {
             }
         },
         state = FavoritesScreenState(value = "")

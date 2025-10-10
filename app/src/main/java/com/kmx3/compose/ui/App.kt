@@ -15,13 +15,13 @@ class App @Inject constructor() {
 
         val mainFlowNavigation =
             MainFlowNavigation(navController) {
-                // nothing here - not supposed to end
+                // при завершении данной ветки навигации приложение должно закрыться
             }
 
         val startFlowNavigation =
             StartFlowNavigation(navController) {
                 navController.navigate(mainFlowNavigation.startRoute) {
-                    popUpTo(StartFlowNavigation.Routes.AuthScreen.route) {
+                    popUpTo(StartFlowNavigation.Routes.GreetingScreen.route) {
                         inclusive = true
                     }
                 }
