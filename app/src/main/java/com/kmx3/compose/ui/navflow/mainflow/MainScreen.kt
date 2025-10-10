@@ -18,45 +18,45 @@ import com.kmx3.compose.ui.navflow.mainflow.main_navigation.UserProfileTopBar
 import com.kmx3.compose.ui.navflow.mainflow.quotas.QuotasScreen
 import com.kmx3.compose.ui.navflow.mainflow.showcase.ShowcaseScreen
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MainScreen(
-    events: MainScreenEvents
-) {
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun MainScreen(
+//    events: MainScreenEvents
+//) {
+//
+//    val navController = rememberNavController()
+//
+//    Scaffold(
+//        topBar = { UserProfileTopBar() },
+//        bottomBar = {
+//            BottomNavigationBar(navController = navController)
+//        }
+//    ) { innerPadding ->
+//        Box(modifier = Modifier.padding(innerPadding)) {
+//            NavHost(
+//                navController = navController,
+//                startDestination = BottomNavItem.Showcase.route
+//            ) {
+///*                composable(BottomNavItem.Showcase.route) { ShowcaseScreen(
+//                    onRequestQuotaClick = { *//* обработка *//* },
+//                    onFilterClick = { *//* обработка *//* }
+//                ) }
+//                composable(BottomNavItem.Favorites.route) { FavoritesScreen() }
+//                composable(BottomNavItem.Invitations.route) { InvitationsScreen() }
+//                composable(BottomNavItem.Quotas.route) { QuotasScreen() }*/
+//            }
+//        }
+//    }
+//}
 
-    val navController = rememberNavController()
+//interface MainScreenEvents {
+//    fun onNext()
+//}
 
-    Scaffold(
-        topBar = { UserProfileTopBar() },
-        bottomBar = {
-            BottomNavigationBar(navController = navController)
-        }
-    ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            NavHost(
-                navController = navController,
-                startDestination = BottomNavItem.Showcase.route
-            ) {
-/*                composable(BottomNavItem.Showcase.route) { ShowcaseScreen(
-                    onRequestQuotaClick = { *//* обработка *//* },
-                    onFilterClick = { *//* обработка *//* }
-                ) }
-                composable(BottomNavItem.Favorites.route) { FavoritesScreen() }
-                composable(BottomNavItem.Invitations.route) { InvitationsScreen() }
-                composable(BottomNavItem.Quotas.route) { QuotasScreen() }*/
-            }
-        }
-    }
-}
-
-interface MainScreenEvents {
-    fun onNext()
-}
-
-@Preview
-@Composable
-fun PreviewMainScreen() {
-    MainScreen(object : MainScreenEvents {
-        override fun onNext() {}
-    })
-}
+//@Preview
+//@Composable
+//fun PreviewMainScreen() {
+//    MainScreen(object : MainScreenEvents {
+//        override fun onNext() {}
+//    })
+//}

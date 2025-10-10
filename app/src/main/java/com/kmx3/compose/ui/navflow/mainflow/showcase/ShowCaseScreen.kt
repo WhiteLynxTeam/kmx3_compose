@@ -19,7 +19,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -38,9 +37,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kmx3.compose.R
 import com.kmx3.compose.ui.models.Candidate
-import com.kmx3.compose.ui.navflow.mainflow.MainFlowNavigation
-import com.kmx3.compose.ui.navflow.mainflow.main_navigation.UserProfileTopBar
-import com.kmx3.compose.ui.navflow.mainflow.menu.BottomMenu
 import com.kmx3.compose.ui.theme.BorderGreen
 import com.kmx3.compose.ui.theme.Bordo
 
@@ -165,167 +161,153 @@ fun ShowcaseScreen(
         skipPartiallyExpanded = true
     )
     var showFilterSheet by remember { mutableStateOf(false) } // For filter sheet
-    var showSortSheet by remember { mutableStateOf(false) }
+    //var showSortSheet by remember { mutableStateOf(false) }
 
-    val items = listOf(
-        MainFlowNavigation.Routes.ShowcaseScreen,
-        MainFlowNavigation.Routes.FavoritesScreen,
-        MainFlowNavigation.Routes.InvitationsScreen,
-        MainFlowNavigation.Routes.QuotasScreen,
-    )
+//    val items = listOf(
+//        MainFlowNavigation.Routes.ShowcaseScreen,
+//        MainFlowNavigation.Routes.FavoritesScreen,
+//        MainFlowNavigation.Routes.InvitationsScreen,
+//        MainFlowNavigation.Routes.QuotasScreen,
+//    )
 
     val quotasCount = 2
     val candidatesCount = 5
 
-    Scaffold(
-        topBar = { UserProfileTopBar() },
-        bottomBar = {
-            BottomMenu(
-                items = items,
-                selected = MainFlowNavigation.Routes.ShowcaseScreen,
-                onSelect = {}
-            )
-        }
-    ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            Column(
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Surface(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.White)
+                    .weight(1f)
+                    .height(58.dp),
+                color = Color.Transparent,
+                border = BorderStroke(2.dp, BorderGreen)
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Surface(
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(72.dp),
-                        color = Color.Transparent,
-                        border = BorderStroke(2.dp, BorderGreen)
-                    ) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            Text(text = "Квоты $quotasCount", fontSize = 18.sp, color = Color.Black)
-                        }
-                    }
+                    Text(text = "Квоты $quotasCount", fontSize = 18.sp, color = Color.Black)
+                }
+            }
 
-                    Surface(
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(72.dp),
-                        color = Color.Transparent,
-                        border = BorderStroke(2.dp, BorderGreen)
-                    ) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            Text(text = "Кандидаты $candidatesCount", fontSize = 18.sp, color = Color.Black)
-                        }
-                    }
-                }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp, vertical = 12.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+            Surface(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(58.dp),
+                color = Color.Transparent,
+                border = BorderStroke(2.dp, BorderGreen)
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Text(
-                        text = "Витрина кандидатов",
-                        color = Bordo, // бордовый
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Button(
-                        modifier = Modifier
-                            .height(36.dp),
-                        onClick = events::onRequestQuota,
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Bordo,
-                            contentColor = Color.White
-                        ),
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Text(
-                            "Запросить квоты",
-                            fontSize = 12.sp
-                        )
-                    }
+                    Text(text = "Кандидаты $candidatesCount", fontSize = 18.sp, color = Color.Black)
                 }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    IconButton(onClick = { showSheet = true }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_sort),
-                            contentDescription = "Сортировка"
-                        )
-                    }
-                    if (showSheet) {
-                        SortBottomSheet(
-                            sheetState = sheetSortState,
-                            selectedOption = selectedOption,
-                            onSelect = {
-                                selectedOption = it
-                                showSheet = false
-                            },
-                            onDismiss = { showSheet = false }
-                        )
-                    }
-                    Spacer(Modifier.width(16.dp))
-                    Button(
-                        onClick = { showFilterSheet = true },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.White,
-                            contentColor = Color.Black
-                        ),
-                        border = BorderStroke(1.dp, Color.LightGray),
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Icon(
-                            painterResource(R.drawable.ic_filter),
-                            contentDescription = "Фильтр"
-                        )
-                        Spacer(Modifier.width(8.dp))
-                        Text("Фильтр")
-                    }
-                    if (showFilterSheet) {
-                        FilterBottomSheet(
-                            sheetState = sheetFilterState,
-                            minAge = minAge,
-                            maxAge = maxAge,
-                            onMinAgeChange = { minAge = it },
-                            onMaxAgeChange = { maxAge = it },
-                            selectedCourses = selectedCourses,
-                            allCourses = allCourses,
-                            onCourseToggle = { course ->
-                                selectedCourses = if (selectedCourses.contains(course)) {
-                                    selectedCourses - course
-                                } else {
-                                    selectedCourses + course
-                                }
-                            },
-                            onApply = {
-                                showFilterSheet = false
-                            },
-                            onDismiss = { showFilterSheet = false }
-                        )
-                    }
-                }
-                CandidatesLazyColumn(candidates)
             }
         }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Витрина кандидатов",
+                color = Bordo, // бордовый
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Button(
+                modifier = Modifier
+                    .height(36.dp),
+                onClick = events::onRequestQuota,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Bordo,
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text(
+                    "Запросить квоты",
+                    fontSize = 12.sp
+                )
+            }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            IconButton(onClick = { showSheet = true }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_sort),
+                    contentDescription = "Сортировка"
+                )
+            }
+            if (showSheet) {
+                SortBottomSheet(
+                    sheetState = sheetSortState,
+                    selectedOption = selectedOption,
+                    onSelect = {
+                        selectedOption = it
+                        showSheet = false
+                    },
+                    onDismiss = { showSheet = false }
+                )
+            }
+            Spacer(Modifier.width(16.dp))
+            Button(
+                onClick = { showFilterSheet = true },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black
+                ),
+                border = BorderStroke(1.dp, Color.LightGray),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Icon(
+                    painterResource(R.drawable.ic_filter),
+                    contentDescription = "Фильтр"
+                )
+                Spacer(Modifier.width(8.dp))
+                Text("Фильтр")
+            }
+            if (showFilterSheet) {
+                FilterBottomSheet(
+                    sheetState = sheetFilterState,
+                    minAge = minAge,
+                    maxAge = maxAge,
+                    onMinAgeChange = { minAge = it },
+                    onMaxAgeChange = { maxAge = it },
+                    selectedCourses = selectedCourses,
+                    allCourses = allCourses,
+                    onCourseToggle = { course ->
+                        selectedCourses = if (selectedCourses.contains(course)) {
+                            selectedCourses - course
+                        } else {
+                            selectedCourses + course
+                        }
+                    },
+                    onApply = {
+                        showFilterSheet = false
+                    },
+                    onDismiss = { showFilterSheet = false }
+                )
+            }
+        }
+        CandidatesLazyColumn(candidates)
     }
-
 
 }
 

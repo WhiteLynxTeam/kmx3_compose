@@ -1,12 +1,29 @@
 package com.kmx3.compose.ui.navflow.mainflow
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.kmx3.compose.R
 import com.kmx3.compose.ui.navflow.mainflow.favorites.FavoritesScreen
 import com.kmx3.compose.ui.navflow.mainflow.favorites.FavoritesScreenEvents
 import com.kmx3.compose.ui.navflow.mainflow.favorites.FavoritesScreenState
+import com.kmx3.compose.ui.navflow.mainflow.invitations.InvitationsScreen
+import com.kmx3.compose.ui.navflow.mainflow.invitations.InvitationsScreenEvents
+import com.kmx3.compose.ui.navflow.mainflow.invitations.InvitationsScreenState
+import com.kmx3.compose.ui.navflow.mainflow.main_navigation.UserProfileTopBar
+import com.kmx3.compose.ui.navflow.mainflow.menu.BottomMenu
+import com.kmx3.compose.ui.navflow.mainflow.quotas.QuotasScreen
+import com.kmx3.compose.ui.navflow.mainflow.quotas.QuotasScreenEvents
+import com.kmx3.compose.ui.navflow.mainflow.quotas.QuotasScreenState
 import com.kmx3.compose.ui.navflow.mainflow.showcase.ShowcaseScreen
 import com.kmx3.compose.ui.navflow.mainflow.showcase.ShowcaseScreenEvents
 import com.kmx3.compose.ui.navflow.mainflow.showcase.ShowcaseScreenState
@@ -17,29 +34,86 @@ class MainFlowNavigation(
     onFinished: (routeName: String) -> Unit
 ) : SubFlowNavigation(onFinished) {
     override val startRoute: String
-        get() = Routes.ShowcaseScreen.route
+        get() = "main_flow_scaffold"
 
     override fun addFlow(builder: NavGraphBuilder) {
         with(builder) {
-            composable(Routes.ShowcaseScreen.route) {
-                ShowcaseScreen(
-                    events = object : ShowcaseScreenEvents {
-                        override fun onRequestQuota() {
+            composable("main_flow_scaffold") {
+                MainFlowScaffold()
+            }
+        }
+    }
 
+    @Composable
+    fun MainFlowScaffold() {
+        val innerNavController = rememberNavController()
+        val currentEntry by innerNavController.currentBackStackEntryAsState()
+        val currentRoute = currentEntry?.destination?.route
+        val selectedRoute = Routes.allRoutes.find { it.route == currentRoute } ?: Routes.ShowcaseScreen
+
+        Scaffold(
+            topBar = { UserProfileTopBar() },
+            bottomBar = {
+                BottomMenu(
+                    items = Routes.allRoutes,
+                    selected = selectedRoute,
+                    onSelect = { route ->
+                        innerNavController.navigate(route.route) {
+                            popUpTo(innerNavController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                    },
-                    state = ShowcaseScreenState(value = "")
+                    }
                 )
             }
-            composable(Routes.FavoritesScreen.route) {
-                FavoritesScreen(
-                    events = object : FavoritesScreenEvents {
-                        override fun onRequestQuota() {
+        ) { innerPadding ->
+            NavHost(
+                navController = innerNavController,
+                startDestination = Routes.ShowcaseScreen.route,
+                modifier = Modifier.padding(innerPadding)
+            ) {
+                composable(Routes.ShowcaseScreen.route) {
+                    ShowcaseScreen(
+                        events = object : ShowcaseScreenEvents {
+                            override fun onRequestQuota() {
 
-                        }
-                    },
-                    state = FavoritesScreenState(value = "")
-                )
+                            }
+                        },
+                        state = ShowcaseScreenState(value = "")
+                    )
+                }
+                composable(Routes.FavoritesScreen.route) {
+                    FavoritesScreen(
+                        events = object : FavoritesScreenEvents {
+                            override fun onRequestQuota() {
+
+                            }
+                        },
+                        state = FavoritesScreenState(value = "")
+                    )
+                }
+                composable(Routes.InvitationsScreen.route) {
+                    InvitationsScreen(
+                        events = object : InvitationsScreenEvents {
+                            override fun onRequestQuota() {
+                                // Логика обработки
+                            }
+                        },
+                        state = InvitationsScreenState(value = "")
+                    )
+                }
+                composable(Routes.QuotasScreen.route) {
+                    QuotasScreen(
+                        events = object : QuotasScreenEvents {
+                            override fun onRequestQuota() {
+                                // Логика обработки
+                            }
+                        },
+                        state = QuotasScreenState(value = "")
+                    )
+                }
             }
         }
     }
@@ -74,5 +148,13 @@ class MainFlowNavigation(
             iconInactive = R.drawable.ic_quotas_inactive,
             label = "Квоты",
             )
+        companion object {
+            val allRoutes = listOf(
+                ShowcaseScreen,
+                FavoritesScreen,
+                InvitationsScreen,
+                QuotasScreen
+            )
+        }
     }
 }
