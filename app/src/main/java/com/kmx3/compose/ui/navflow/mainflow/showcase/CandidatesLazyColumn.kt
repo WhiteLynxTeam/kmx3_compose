@@ -22,8 +22,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -81,11 +86,27 @@ fun CandidatesLazyColumn(candidates: List<Candidate>) {
                             }
                         }
                         Spacer(Modifier.weight(1f))
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_favorites),
-                            contentDescription = null,
-                            tint = Bordo
-                        )
+//                        IconButton(onClick = {  }) {
+//                            Icon(
+//                                modifier = Modifier.size(20.dp),
+//                                painter = painterResource(id = R.drawable.ic_favorite),
+//                                contentDescription = null,
+//                                tint = Bordo
+//                            )
+//                        }
+                        var isFavorite by remember { mutableStateOf(true) }
+                        IconButton(onClick = { isFavorite = !isFavorite }) {
+                            Icon(
+                                modifier = Modifier.size(20.dp),
+                                painter = painterResource(
+                                    if (isFavorite) R.drawable.ic_favorite
+                                    else R.drawable.ic_favorite_selected
+                                )
+                                ,
+                                contentDescription = null,
+                                tint = Bordo
+                            )
+                        }
                     }
                     Spacer(Modifier.height(10.dp))
                     Text("МИЭЛЬ ПрактикУМ", color = Bordo, fontWeight = FontWeight.Bold)
@@ -141,12 +162,29 @@ fun CandidatesLazyColumn(candidates: List<Candidate>) {
                         modifier = Modifier.fillMaxWidth(),
                         contentAlignment = Alignment.Center
                     ) {
+                        var isInvite by remember { mutableStateOf(true) }
                         Button(
-                            onClick = { /* TODO */ },
+                            onClick = { isInvite = !isInvite },
                             shape = RoundedCornerShape(10.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = Bordo),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor =
+                                    if (isInvite)  Bordo
+                                    else BorderGreen
+                            ),
                             modifier = Modifier.fillMaxWidth(0.445f)
-                        ) { Text("Пригласить", color = Color.White) }
+                        ) { Text(
+                            if (isInvite) "Пригласить"
+                            else "Приглашен",
+                            color =
+                                if (isInvite) Color.White
+                                else Color.Black
+                        ) }
+//                        Button(
+//                            onClick = { /* TODO */ },
+//                            shape = RoundedCornerShape(10.dp),
+//                            colors = ButtonDefaults.buttonColors(containerColor = Bordo),
+//                            modifier = Modifier.fillMaxWidth(0.445f)
+//                        ) { Text("Пригласить", color = Color.White) }
                     }
 
                 }

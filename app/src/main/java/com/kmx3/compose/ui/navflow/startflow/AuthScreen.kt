@@ -1,5 +1,7 @@
 package com.kmx3.compose.ui.navflow.startflow
 
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -41,6 +44,10 @@ fun AuthScreen(
     state: AuthScreenState, events: AuthScreenEvents,
 //    onLoginClick: (String, String) -> Unit
 ) {
+    var showDialog by remember { mutableStateOf(false) }
+    BackHandler(enabled = true) {
+        showDialog = true
+    }
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
@@ -118,6 +125,49 @@ fun AuthScreen(
             style = MaterialTheme.typography.bodySmall,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 8.dp)
+        )
+    }
+    if (showDialog) {
+        val activity = LocalActivity.current
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            containerColor = Color.White,
+            title = { Text("Подтверждение выхода") },
+            text = { Text("Вы уверены, что хотите выйти из приложения?") },
+            confirmButton = {
+                Button(
+                    modifier = Modifier
+                        .height(36.dp),
+                    onClick = { activity?.finishAffinity() },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Gray,
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Text(
+                        "Да",
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                }
+            },
+            dismissButton = {
+                Button(
+                    modifier = Modifier
+                        .height(36.dp),
+                    onClick = { showDialog = false },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Gray,
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Text(
+                        "Нет",
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                }
+            }
         )
     }
 }

@@ -1,5 +1,6 @@
 package com.kmx3.compose.ui.navflow.mainflow.main_navigation
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -8,23 +9,31 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,6 +51,7 @@ fun UserProfileTopBar(
     onBellClick: () -> Unit = {},
     onArrowClick: () -> Unit = {}
 ) {
+    var showDialog by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -86,13 +96,56 @@ fun UserProfileTopBar(
             )
         }
 
-        IconButton(onClick = onArrowClick) {
+        IconButton(onClick = { showDialog = true }) {
             Icon(
                 painter = painterResource(R.drawable.ic_exit), // используйте свою стрелку
                 contentDescription = "Выйти",
                 tint = Color.Black
             )
         }
+    }
+    if (showDialog) {
+        val activity = LocalActivity.current
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            containerColor = Color.White,
+            title = { Text("Подтверждение выхода") },
+            text = { Text("Вы уверены, что хотите выйти из приложения?") },
+            confirmButton = {
+                Button(
+                    modifier = Modifier
+                        .height(36.dp),
+                    onClick = { activity?.finishAffinity() },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Gray,
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Text(
+                        "Да",
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                }
+            },
+            dismissButton = {
+                Button(
+                    modifier = Modifier
+                        .height(36.dp),
+                    onClick = { showDialog = false },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Gray,
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Text(
+                        "Нет",
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                }
+            }
+        )
     }
 }
 

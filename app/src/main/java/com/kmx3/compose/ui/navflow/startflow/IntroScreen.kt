@@ -1,5 +1,6 @@
 package com.kmx3.compose.ui.navflow.startflow
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -28,6 +29,7 @@ import androidx.media3.ui.PlayerView
 @androidx.annotation.OptIn(UnstableApi::class)
 @Composable
 fun VideoScreen(events: IntroScreenEvents) {
+    BackHandler(enabled = true) {}
     val context = LocalContext.current
 
     // Создаем плеер

@@ -1,5 +1,6 @@
 package com.kmx3.compose.ui.navflow.mainflow.invitations
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,11 +24,17 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +48,7 @@ import com.kmx3.compose.R
 import com.kmx3.compose.ui.navflow.mainflow.MainFlowNavigation
 import com.kmx3.compose.ui.navflow.mainflow.main_navigation.UserProfileTopBar
 import com.kmx3.compose.ui.navflow.mainflow.menu.BottomMenu
+import com.kmx3.compose.ui.navflow.mainflow.showcase.SortBottomSheet
 import com.kmx3.compose.ui.theme.Bordo
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,7 +56,7 @@ import com.kmx3.compose.ui.theme.Bordo
 fun InvitationsScreen(
     state: InvitationsScreenState, events: InvitationsScreenEvents
 ) {
-
+    BackHandler(enabled = true) {}
     val candidates = listOf(
         CandidateStatus(
             name = "Романова Мария Ивановна",
@@ -148,6 +156,7 @@ fun PreviewInvitationsScreen() {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CandidateStatusRow(status: CandidateStatus) {
     Row(
@@ -156,6 +165,8 @@ fun CandidateStatusRow(status: CandidateStatus) {
             .fillMaxWidth()
             .padding(vertical = 12.dp, horizontal = 8.dp)
     ) {
+        val sheetState = rememberModalBottomSheetState()
+        var showSheet by remember { mutableStateOf(false) }
         // Левый блок (иконка + ФИО)
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -184,12 +195,28 @@ fun CandidateStatusRow(status: CandidateStatus) {
         // Правый блок (статус + иконка)
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End,
-            modifier = Modifier.weight(1f)
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         ) {
-            Text(text = status.type.label)
+            Text(
+                modifier = Modifier.weight(5f),
+                text = status.type.label
+            )
             Spacer(modifier = Modifier.width(8.dp))
-            Icon(Icons.Default.MoreVert, contentDescription = null)
+            IconButton(
+                modifier = Modifier.weight(1f),
+                onClick = { showSheet = true }
+            ) {
+                Icon(Icons.Default.MoreVert, contentDescription = null)
+            }
+            if (showSheet) {
+                UserInfoBottomSheet(
+                    sheetState = sheetState,
+                    onDismiss = { showSheet = false }
+                )
+            }
         }
     }
 }
