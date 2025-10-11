@@ -1,5 +1,6 @@
 package com.kmx3.compose.ui.navflow.mainflow.quotas
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -47,7 +48,7 @@ import com.kmx3.compose.ui.theme.Bordo
 fun QuotasScreen(
     state: QuotasScreenState, events: QuotasScreenEvents
 ) {
-
+    BackHandler(enabled = true) {}
     val periods = listOf("Неделя", "Месяц", "Год")
     var selectedPeriod by remember { mutableStateOf("Период") }
     var sheetOpened by remember { mutableStateOf(false) }

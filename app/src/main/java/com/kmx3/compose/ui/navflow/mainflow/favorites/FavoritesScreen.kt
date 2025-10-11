@@ -1,5 +1,6 @@
 package com.kmx3.compose.ui.navflow.mainflow.favorites
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -46,13 +47,12 @@ import com.kmx3.compose.ui.navflow.mainflow.showcase.SortBottomSheet
 import com.kmx3.compose.ui.navflow.mainflow.showcase.SortOption
 import com.kmx3.compose.ui.theme.Bordo
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoritesScreen(
     state: FavoritesScreenState, events: FavoritesScreenEvents
 ) {
-
+    BackHandler(enabled = true) {}
     val candidates = listOf(
         Candidate(
             name = "Романова Мария Ивановна",

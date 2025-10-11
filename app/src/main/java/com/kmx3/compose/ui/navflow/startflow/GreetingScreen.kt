@@ -1,5 +1,6 @@
 package com.kmx3.compose.ui.navflow.startflow
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,7 +23,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun GreetingScreen(events: GreetingScreenEvents) {
-    val name = "Мария"
+    BackHandler(enabled = true) {}
+    val name = ""
 
     LaunchedEffect(Unit) {
         delay(1500)

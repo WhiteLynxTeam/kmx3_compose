@@ -1,5 +1,6 @@
 package com.kmx3.compose.ui.navflow.mainflow.showcase
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -52,7 +54,7 @@ fun ShowcaseScreen(
 //    onRequestQuotaClick: () -> Unit,
 //    onFilterClick: () -> Unit
 ) {
-
+    BackHandler(enabled = true) {}
     val candidates = listOf(
         Candidate(
             name = "Романова Мария Ивановна",
