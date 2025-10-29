@@ -70,7 +70,7 @@ dependencies {
     /** Retrofit - okHttp */
     implementation(libs.okhttp.logging.interceptor)
     /** Retrofit - Adapter - Result */
-    implementation(libs.retrofit.adapters.result)
+//    implementation(libs.retrofit.adapters.result)
 
     /** Hilt */
     implementation(libs.hilt.android)

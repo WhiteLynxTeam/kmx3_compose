@@ -21,7 +21,7 @@ room = "2.8.3"
 
 retrofit = "2.9.0"
 okhttpLoggingInterceptor = "5.0.0-alpha.2"
-adaptersResult = "1.0.9"
+#adaptersResult = "1.0.9"
 
 kotlinxCoroutines = "1.8.1"
 
@@ -71,7 +71,7 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
-retrofit-adapters-result = { module = "com.github.skydoves:retrofit-adapters-result", version.ref = "adaptersResult" }
+#retrofit-adapters-result = { module = "com.github.skydoves:retrofit-adapters-result", version.ref = "adaptersResult" }
 
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLoggingInterceptor" }
 
