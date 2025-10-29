@@ -3,7 +3,12 @@ package com.kmx3.compose.data.remote
 import com.kmx3.compose.data.remote.model.request.CreateUserRequest
 import com.kmx3.compose.data.remote.model.request.UpdateUserRequest
 import com.kmx3.compose.data.remote.model.response.UserResponseDto
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface UserApiService {
     @GET("users")

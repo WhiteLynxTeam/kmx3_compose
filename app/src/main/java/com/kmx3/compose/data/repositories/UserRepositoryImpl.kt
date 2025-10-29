@@ -33,7 +33,8 @@ class UserRepositoryImpl @Inject constructor(
     
     override suspend fun insertUser(user: User): Long {
         val userEntity = userDomainToEntityMapper.map(user)
-        return userDao.insertUserToDao(userEntity)
+        userDao.insertUserToDao(userEntity)
+        return 1L
     }
     
     override suspend fun insertUsers(users: List<User>) {

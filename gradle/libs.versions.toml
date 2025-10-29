@@ -17,6 +17,14 @@ ksp = "2.2.20-2.0.3"
 hilt = "2.57.2"
 hiltNavigationCompose = "1.3.0"
 
+room = "2.8.3"
+
+retrofit = "2.9.0"
+okhttpLoggingInterceptor = "5.0.0-alpha.2"
+adaptersResult = "1.0.9"
+
+kotlinxCoroutines = "1.8.1"
+
 #junitVersion = "1.3.0"
 #espressoCore = "3.7.0"
 
@@ -50,9 +58,22 @@ androidx-exoplayer-ui = { group = "androidx.media3", name = "media3-ui", version
 
 google-accompanist = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
 
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+retrofit-adapters-result = { module = "com.github.skydoves:retrofit-adapters-result", version.ref = "adaptersResult" }
+
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLoggingInterceptor" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
