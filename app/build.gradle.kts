@@ -49,10 +49,6 @@ kotlin {
 
 dependencies {
 
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.hilt.navigation.compose)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -64,7 +60,29 @@ dependencies {
     implementation(libs.androidx.navigation)
     implementation(libs.androidx.material.icons.extended)
 
-    //ExoPlayer
+    /** Coroutines */
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
+    /** Retrofit */
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    /** Retrofit - okHttp */
+    implementation(libs.okhttp.logging.interceptor)
+    /** Retrofit - Adapter - Result */
+//    implementation(libs.retrofit.adapters.result)
+
+    /** Hilt */
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+    /** Room */
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
+    /** ExoPlayer */
     implementation(libs.androidx.exoplayer)
     implementation(libs.androidx.exoplayer.ui)
 

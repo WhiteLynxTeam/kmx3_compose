@@ -1,0 +1,10 @@
+package com.kmx3.compose.data.remote.model.request
+
+data class UpdateUserRequest(
+    val id: String,
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    val age: Int? = null,
+    val isActive: Boolean = true
+)
