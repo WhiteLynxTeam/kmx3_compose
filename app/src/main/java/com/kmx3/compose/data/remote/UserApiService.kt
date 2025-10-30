@@ -1,8 +1,8 @@
 package com.kmx3.compose.data.remote
 
-import com.kmx3.compose.data.remote.model.request.CreateUserRequest
-import com.kmx3.compose.data.remote.model.request.UpdateUserRequest
-import com.kmx3.compose.data.remote.model.response.UserResponseDto
+import com.kmx3.compose.data.remote.model.user.request.CreateUserRequest
+import com.kmx3.compose.data.remote.model.user.request.UpdateUserRequest
+import com.kmx3.compose.data.remote.model.user.response.UserResponseDto
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET

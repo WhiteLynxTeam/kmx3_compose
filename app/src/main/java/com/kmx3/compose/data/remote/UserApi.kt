@@ -1,8 +1,8 @@
 package com.kmx3.compose.data.remote
 
-import com.kmx3.compose.data.remote.model.request.AuthUserRequest
-import com.kmx3.compose.data.remote.model.response.AuthUserResponse
-import com.kmx3.compose.data.remote.model.response.InfoUserResponse
+import com.kmx3.compose.data.remote.model.user.request.AuthUserRequest
+import com.kmx3.compose.data.remote.model.user.response.AuthUserResponse
+import com.kmx3.compose.data.remote.model.user.response.InfoUserResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header

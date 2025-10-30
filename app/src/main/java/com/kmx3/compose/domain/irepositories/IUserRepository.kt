@@ -42,4 +42,9 @@ interface IUserRepository {
      * Delete all users
      */
     suspend fun deleteAllUsers()
+    
+    /**
+     * Authenticate user
+     */
+    suspend fun auth(user: User)
 }

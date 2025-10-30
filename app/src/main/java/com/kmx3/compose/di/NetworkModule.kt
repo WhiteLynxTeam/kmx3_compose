@@ -1,0 +1,79 @@
+package com.kmx3.compose.di
+
+import com.kmx3.compose.data.remote.UserApi
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
+import javax.inject.Named
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+
+    @Provides
+    @Singleton
+    @AuthOkHttpClient
+    fun provideAuthOkHttpClient(): OkHttpClient = 
+        OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply { 
+                level = HttpLoggingInterceptor.Level.BODY 
+            })
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .build()
+
+    @Provides
+    @Singleton
+    @ApiOkHttpClient
+    fun provideApiOkHttpClient(): OkHttpClient = 
+        OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply { 
+                level = HttpLoggingInterceptor.Level.BODY 
+            })
+            .addInterceptor { chain ->
+                // добавление авторизационного заголовка
+                // в реальной реализации токен будет получаться из SharedPreferences, DataStore или другого источника
+                val request = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer <token_here>")
+                    .build()
+                chain.proceed(request)
+            }
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .build()
+
+    @Provides
+    @Singleton
+    @Named("auth")
+    fun provideAuthRetrofit(@AuthOkHttpClient okHttpClient: OkHttpClient): Retrofit = 
+        Retrofit.Builder()
+            .baseUrl(com.kmx3.compose.BuildConfig.BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+    @Provides
+    @Singleton
+    @Named("api")
+    fun provideApiRetrofit(@ApiOkHttpClient okHttpClient: OkHttpClient): Retrofit = 
+        Retrofit.Builder()
+            .baseUrl(com.kmx3.compose.BuildConfig.BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+    @Provides
+    @Singleton
+    fun provideUserApi(@Named("auth") retrofit: Retrofit): UserApi = 
+        retrofit.create(UserApi::class.java)
+}
