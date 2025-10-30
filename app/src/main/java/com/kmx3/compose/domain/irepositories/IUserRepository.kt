@@ -1,5 +1,6 @@
 package com.kmx3.compose.domain.irepositories
 
+import com.kmx3.compose.data.remote.model.user.response.AuthUserResponse
 import com.kmx3.compose.domain.models.User
 import kotlinx.coroutines.flow.Flow
 
@@ -46,5 +47,5 @@ interface IUserRepository {
     /**
      * Authenticate user
      */
-    suspend fun auth(user: User)
+    suspend fun auth(user: User): Result<AuthUserResponse>
 }

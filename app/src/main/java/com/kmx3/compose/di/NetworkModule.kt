@@ -1,11 +1,11 @@
 package com.kmx3.compose.di
 
+import com.kmx3.compose.BuildConfig
 import com.kmx3.compose.data.remote.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -57,7 +57,7 @@ object NetworkModule {
     @Named("auth")
     fun provideAuthRetrofit(@AuthOkHttpClient okHttpClient: OkHttpClient): Retrofit = 
         Retrofit.Builder()
-            .baseUrl(com.kmx3.compose.BuildConfig.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -67,7 +67,7 @@ object NetworkModule {
     @Named("api")
     fun provideApiRetrofit(@ApiOkHttpClient okHttpClient: OkHttpClient): Retrofit = 
         Retrofit.Builder()
-            .baseUrl(com.kmx3.compose.BuildConfig.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
