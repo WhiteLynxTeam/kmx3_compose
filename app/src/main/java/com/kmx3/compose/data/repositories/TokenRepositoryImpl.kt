@@ -1,6 +1,6 @@
 package com.kmx3.compose.data.repositories
 
-import com.kmx3.compose.data.local.datastores.TokenDataStore
+import com.kmx3.compose.data.local.PreferencesDataStore
 import com.kmx3.compose.data.local.model.Token
 import com.kmx3.compose.domain.irepositories.ITokensRepository
 import kotlinx.coroutines.flow.Flow
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TokenRepositoryImpl @Inject constructor(
-    private val tokenDataStore: TokenDataStore
+    private val tokenDataStore: PreferencesDataStore
 ) : ITokensRepository {
     
     override val token: Flow<Token?> = tokenDataStore.token.map { tokenString ->

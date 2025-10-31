@@ -1,4 +1,4 @@
-package com.kmx3.compose.data.local.datastores
+package com.kmx3.compose.data.local
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "miel_preferences")
 
 @Singleton
-class TokenDataStore @Inject constructor(
+class PreferencesDataStore @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     private object PreferencesKeys {
@@ -36,6 +36,26 @@ class TokenDataStore @Inject constructor(
     suspend fun clearToken() {
         context.dataStore.edit { preferences ->
             preferences.remove(PreferencesKeys.TOKEN_KEY)
+        }
+    }
+    
+    // Добавим общий метод для получения значения по ключу
+    fun getString(key: String): Flow<String?> = context.dataStore.data
+        .map { preferences ->
+            preferences[stringPreferencesKey(key)]
+        }
+    
+    // Добавим общий метод для сохранения значения по ключу
+    suspend fun saveString(key: String, value: String) {
+        context.dataStore.edit { preferences ->
+            preferences[stringPreferencesKey(key)] = value
+        }
+    }
+    
+    // Добавим общий метод для удаления значения по ключу
+    suspend fun clearKey(key: String) {
+        context.dataStore.edit { preferences ->
+            preferences.remove(stringPreferencesKey(key))
         }
     }
 }
