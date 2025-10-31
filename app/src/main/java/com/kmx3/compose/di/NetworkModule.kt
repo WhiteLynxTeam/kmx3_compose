@@ -1,6 +1,7 @@
 package com.kmx3.compose.di
 
 import com.kmx3.compose.BuildConfig
+import com.kmx3.compose.data.remote.SecureUserApi
 import com.kmx3.compose.data.remote.UserApi
 import dagger.Module
 import dagger.Provides
@@ -76,4 +77,10 @@ object NetworkModule {
     @Singleton
     fun provideUserApi(@Named("auth") retrofit: Retrofit): UserApi = 
         retrofit.create(UserApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSecureUserApi(@Named("api") retrofit: Retrofit): SecureUserApi = 
+        retrofit.create(SecureUserApi::class.java)
+}
 }

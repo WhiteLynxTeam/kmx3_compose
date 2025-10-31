@@ -77,6 +77,9 @@ dependencies {
     /** Retrofit - Adapter - Result */
 //    implementation(libs.retrofit.adapters.result)
 
+    /** DataStore */
+    implementation(libs.androidx.datastore.preferences)
+
     /** Hilt */
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

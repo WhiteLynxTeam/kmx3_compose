@@ -1,9 +1,13 @@
 package com.kmx3.compose.di
 
+import com.kmx3.compose.data.remote.SecureUserApi
 import com.kmx3.compose.domain.irepositories.IUserRepository
+import com.kmx3.compose.domain.irepositories.ITokensRepository
+import com.kmx3.compose.domain.usecases.AuthApiUseCase
 import com.kmx3.compose.domain.usecases.CreateUserUseCase
 import com.kmx3.compose.domain.usecases.DeleteUserUseCase
 import com.kmx3.compose.domain.usecases.GetUserUseCase
+import com.kmx3.compose.domain.usecases.GetUserInfoUseCase
 import com.kmx3.compose.domain.usecases.UpdateUserUseCase
 import dagger.Module
 import dagger.Provides
@@ -37,5 +41,23 @@ object UseCaseModule {
     @Singleton
     fun provideDeleteUserUseCase(repository: IUserRepository): DeleteUserUseCase {
         return DeleteUserUseCase(repository)
+    }
+    
+    @Provides
+    @Singleton
+    fun provideAuthApiUseCase(
+        userRepository: IUserRepository,
+        tokensRepository: ITokensRepository
+    ): AuthApiUseCase {
+        return AuthApiUseCase(userRepository, tokensRepository)
+    }
+    
+    @Provides
+    @Singleton
+    fun provideGetUserInfoUseCase(
+        secureUserApi: SecureUserApi,
+        tokensRepository: ITokensRepository
+    ): GetUserInfoUseCase {
+        return GetUserInfoUseCase(secureUserApi, tokensRepository)
     }
 }
