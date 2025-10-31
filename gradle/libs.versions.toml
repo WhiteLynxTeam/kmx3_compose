@@ -24,7 +24,8 @@ okhttpLoggingInterceptor = "5.0.0-alpha.2"
 #adaptersResult = "1.0.9"
 
 kotlinxCoroutines = "1.8.1"
-datastorePreferences = "1.1.3"
+
+datastorePreferences = "1.1.7"
 
 #junitVersion = "1.3.0"
 #espressoCore = "3.7.0"
@@ -33,8 +34,6 @@ androidx-navigation3 = "1.0.0-alpha10"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-
-androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastorePreferences" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -77,6 +76,8 @@ retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-
 #retrofit-adapters-result = { module = "com.github.skydoves:retrofit-adapters-result", version.ref = "adaptersResult" }
 
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLoggingInterceptor" }
+
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastorePreferences" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

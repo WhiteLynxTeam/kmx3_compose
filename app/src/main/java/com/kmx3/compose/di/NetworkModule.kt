@@ -83,4 +83,3 @@ object NetworkModule {
     fun provideSecureUserApi(@Named("api") retrofit: Retrofit): SecureUserApi = 
         retrofit.create(SecureUserApi::class.java)
 }
-}
