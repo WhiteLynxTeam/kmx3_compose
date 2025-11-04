@@ -5,7 +5,7 @@ import com.kmx3.compose.data.mappers.UserDomainToEntityMapper
 import com.kmx3.compose.data.mappers.UserEntityToDomainMapper
 import com.kmx3.compose.data.mappers.UserResponseDtoToDomainMapper
 import com.kmx3.compose.data.mappers.UserDomainToRequestMapper
-import com.kmx3.compose.data.remote.UserApi
+import com.kmx3.compose.data.remote.api.UserApi
 import com.kmx3.compose.data.remote.UserApiService
 import com.kmx3.compose.data.remote.model.user.request.AuthUserRequest
 import com.kmx3.compose.domain.irepositories.IUserRepository

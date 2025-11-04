@@ -1,8 +1,10 @@
 package com.kmx3.compose.di
 
 import com.kmx3.compose.BuildConfig
-import com.kmx3.compose.data.remote.SecureUserApi
-import com.kmx3.compose.data.remote.UserApi
+import com.kmx3.compose.data.remote.api.SecureUserApi
+import com.kmx3.compose.data.remote.api.UserApi
+import com.kmx3.compose.data.remote.interceptor.TokenInterceptor
+import com.kmx3.compose.domain.irepositories.ITokensRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +20,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+    @Provides
+    @Singleton
+    fun provideTokenInterceptor(
+        tokensRepository: ITokensRepository  // DI внедряет имплементацию
+    ): TokenInterceptor = TokenInterceptor(tokensRepository)
 
     @Provides
     @Singleton
@@ -35,19 +42,12 @@ object NetworkModule {
     @Provides
     @Singleton
     @ApiOkHttpClient
-    fun provideApiOkHttpClient(): OkHttpClient = 
+    fun provideApiOkHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply { 
                 level = HttpLoggingInterceptor.Level.BODY 
             })
-            .addInterceptor { chain ->
-                // добавление авторизационного заголовка
-                // в реальной реализации токен будет получаться из SharedPreferences, DataStore или другого источника
-                val request = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer <token_here>")
-                    .build()
-                chain.proceed(request)
-            }
+            .addInterceptor (tokenInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)

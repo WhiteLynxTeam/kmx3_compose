@@ -1,4 +1,4 @@
-package com.kmx3.compose.data.remote
+package com.kmx3.compose.data.remote.api
 
 import com.kmx3.compose.data.remote.model.user.request.AuthUserRequest
 import com.kmx3.compose.data.remote.model.user.response.AuthUserResponse
@@ -16,6 +16,6 @@ interface UserApi {
 
     @GET("/api/info/")
     suspend fun info(
-        @Header ("Authorization") token: String
+        @Header("Authorization") token: String
     ): Result<List<InfoUserResponse>>
 }

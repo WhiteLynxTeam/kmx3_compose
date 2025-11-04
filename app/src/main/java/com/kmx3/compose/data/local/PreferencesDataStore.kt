@@ -18,6 +18,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class PreferencesDataStore @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
+    /*** Типобезопасный с явными методами для каждой сущности */
     private object PreferencesKeys {
         val TOKEN_KEY = stringPreferencesKey("token")
     }
@@ -38,24 +39,47 @@ class PreferencesDataStore @Inject constructor(
             preferences.remove(PreferencesKeys.TOKEN_KEY)
         }
     }
-    
-    // Добавим общий метод для получения значения по ключу
+
+
+    /***  Универсальный алгоритм с кэшированием ключей
+     * при создании ключей по строкам динамически и много
+     * для простых случаев не применяем. Но пусть будет на будущее
+     * */
+/*    private val keysCache = mutableMapOf<String, Preferences.Key<String>>()
+
+    private fun getStringKey(key: String): Preferences.Key<String> {
+        return keysCache.getOrPut(key) { stringPreferencesKey(key) }
+    }
+
     fun getString(key: String): Flow<String?> = context.dataStore.data
         .map { preferences ->
-            preferences[stringPreferencesKey(key)]
+            preferences[getStringKey(key)]
         }
-    
-    // Добавим общий метод для сохранения значения по ключу
+
     suspend fun saveString(key: String, value: String) {
         context.dataStore.edit { preferences ->
-            preferences[stringPreferencesKey(key)] = value
+            preferences[getStringKey(key)] = value
         }
     }
-    
-    // Добавим общий метод для удаления значения по ключу
+
     suspend fun clearKey(key: String) {
         context.dataStore.edit { preferences ->
-            preferences.remove(stringPreferencesKey(key))
+            preferences.remove(getStringKey(key))
         }
     }
+
+    *//*** token *//*
+    val token: Flow<String?> = getString("token")
+
+    suspend fun saveToken(token: String) = saveString("token", token)
+
+    suspend fun clearToken() = clearKey("token")
+
+    *//*** refresh token *//*
+
+    val refreshToken: Flow<String?> = getString("refresh_token")
+
+    suspend fun saveRefreshToken(token: String) = saveString("refresh_token", token)
+
+    suspend fun clearRefreshToken() = clearKey("refresh_token")*/
 }

@@ -1,6 +1,6 @@
 package com.kmx3.compose.di
 
-import com.kmx3.compose.data.remote.SecureUserApi
+import com.kmx3.compose.data.remote.api.SecureUserApi
 import com.kmx3.compose.domain.irepositories.IUserRepository
 import com.kmx3.compose.domain.irepositories.ITokensRepository
 import com.kmx3.compose.domain.usecases.AuthApiUseCase
