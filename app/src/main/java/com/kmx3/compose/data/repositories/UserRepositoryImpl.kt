@@ -5,14 +5,18 @@ import com.kmx3.compose.data.mappers.UserDomainToEntityMapper
 import com.kmx3.compose.data.mappers.UserEntityToDomainMapper
 import com.kmx3.compose.data.mappers.UserResponseDtoToDomainMapper
 import com.kmx3.compose.data.mappers.UserDomainToRequestMapper
+import com.kmx3.compose.data.remote.api.UserApi
 import com.kmx3.compose.data.remote.UserApiService
+import com.kmx3.compose.data.remote.model.user.request.AuthUserRequest
 import com.kmx3.compose.domain.irepositories.IUserRepository
 import com.kmx3.compose.domain.models.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Named
 
 class UserRepositoryImpl @Inject constructor(
+    @Named("auth") private val userApi: UserApi,
     private val userApiService: UserApiService,
     private val userDao: UserDao,
     private val userResponseDtoToDomainMapper: UserResponseDtoToDomainMapper,
@@ -83,4 +87,11 @@ class UserRepositoryImpl @Inject constructor(
     suspend fun deleteUserFromApi(id: String) {
         userApiService.deleteUserFromApi(id)
     }
+    
+    override suspend fun auth(user: User) = userApi.auth(
+        AuthUserRequest(
+            user.username ?: "", 
+            user.password ?: ""
+        )
+    )
 }

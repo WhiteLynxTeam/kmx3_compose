@@ -1,4 +1,4 @@
-package com.kmx3.compose.data.remote.model.response
+package com.kmx3.compose.data.remote.model.user.response
 
 data class UserResponseDto(
     val id: String,

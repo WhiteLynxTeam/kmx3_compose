@@ -11,6 +11,8 @@ data class User(
     val firstName: String,
     val lastName: String,
     val email: String,
+    val username: String? = null,
+    val password: String? = null,
     val age: Int? = null,
     val isActive: Boolean = true,
     val createdAt: Long = System.currentTimeMillis(),

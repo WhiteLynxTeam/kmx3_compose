@@ -1,6 +1,6 @@
 package com.kmx3.compose.data.mappers
 
-import com.kmx3.compose.data.remote.model.response.UserResponseDto
+import com.kmx3.compose.data.remote.model.user.response.UserResponseDto
 import com.kmx3.compose.domain.models.User
 import javax.inject.Inject
 

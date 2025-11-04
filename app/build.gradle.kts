@@ -20,9 +20,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        
+        buildConfigField("String", "BASE_URL", "\"https://miel.sayrrx.cfd/\"")
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://dev.miel.sayrrx.cfd/\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -71,6 +76,9 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     /** Retrofit - Adapter - Result */
 //    implementation(libs.retrofit.adapters.result)
+
+    /** DataStore */
+    implementation(libs.androidx.datastore.preferences)
 
     /** Hilt */
     implementation(libs.hilt.android)
