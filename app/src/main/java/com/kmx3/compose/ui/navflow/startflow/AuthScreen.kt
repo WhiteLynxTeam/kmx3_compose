@@ -48,8 +48,6 @@ fun AuthScreen(
     BackHandler(enabled = true) {
         showDialog = true
     }
-    var login by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
 
     Column(
@@ -78,8 +76,8 @@ fun AuthScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         OutlinedTextField(
-            value = login,
-            onValueChange = { login = it },
+            value = state.login,
+            onValueChange = events::onLoginEntered,
             modifier = Modifier.fillMaxWidth(),
             placeholder = { Text("Логин") },
             shape = RoundedCornerShape(10.dp),
@@ -89,8 +87,8 @@ fun AuthScreen(
         Spacer(modifier = Modifier.height(12.dp))
 
         OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
+            value = state.pass,
+            onValueChange = events::onPassEntered,
             modifier = Modifier.fillMaxWidth(),
             placeholder = { Text("Пароль") },
             shape = RoundedCornerShape(10.dp),
