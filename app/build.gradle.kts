@@ -26,7 +26,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://dev.miel.sayrrx.cfd/\"")
+            buildConfigField("String", "BASE_URL", "\"https://miel.sayrrx.cfd/\"")
         }
         release {
             isMinifyEnabled = false
