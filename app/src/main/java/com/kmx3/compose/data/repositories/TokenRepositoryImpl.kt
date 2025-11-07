@@ -1,8 +1,8 @@
 package com.kmx3.compose.data.repositories
 
 import com.kmx3.compose.data.local.PreferencesDataStore
-import com.kmx3.compose.data.local.model.Token
 import com.kmx3.compose.domain.irepositories.ITokensRepository
+import com.kmx3.compose.domain.models.Token
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -31,8 +31,8 @@ class TokenRepositoryImpl @Inject constructor(
         tokenString?.let { Token(it) }
     }
 
-    override suspend fun saveToken(token: Token) {
-        tokenDataStore.saveToken(token.value)
+    override suspend fun saveToken(token: String) {
+        tokenDataStore.saveToken(token)
     }
 
     override suspend fun clearToken() {
