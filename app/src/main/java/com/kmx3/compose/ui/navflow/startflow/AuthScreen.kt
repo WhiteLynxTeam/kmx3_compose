@@ -176,7 +176,8 @@ data class AuthScreenState(
     val login: String,
     val pass: String,
     val isError: Boolean,
-    val canGoNext: Boolean
+    val canGoNext: Boolean,
+    val isLoading: Boolean = false
 )
 
 interface AuthScreenEvents {
