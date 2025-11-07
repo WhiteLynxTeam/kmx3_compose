@@ -51,15 +51,19 @@ class StartFlowNavigation(
                     viewModel.events.collectLatest { event ->
                         when (event) {
                             is AuthScreenViewModel.Events.Auth -> {
+
+                            }
+                            is AuthScreenViewModel.Events.Exit -> {
+                                navController.popBackStack()
+                            }
+
+                            AuthScreenViewModel.Events.NavigateToMain -> {
                                 navController.navigate(Routes.GreetingScreen.route) {
                                     popUpTo(Routes.AuthScreen.route) {
                                         inclusive = true
                                     } // убираем экран логина
                                     launchSingleTop = true
                                 }
-                            }
-                            is AuthScreenViewModel.Events.Exit -> {
-                                navController.popBackStack()
                             }
                         }
                     }

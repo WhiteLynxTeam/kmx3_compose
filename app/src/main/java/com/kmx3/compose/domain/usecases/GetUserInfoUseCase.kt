@@ -6,11 +6,13 @@ import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
 class GetUserInfoUseCase @Inject constructor(
-    private val secureUserApi: SecureUserApi,
+//    private val secureUserApi: SecureUserApi,
     private val tokensRepository: ITokensRepository
 ) {
-    suspend operator fun invoke() = 
+    suspend operator fun invoke() {
+/*        =
         tokensRepository.token.firstOrNull()?.let { token ->
             secureUserApi.info("Bearer ${token.value}")
-        }
+        }*/
+    }
 }

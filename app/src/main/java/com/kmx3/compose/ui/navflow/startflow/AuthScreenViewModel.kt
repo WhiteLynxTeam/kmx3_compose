@@ -45,18 +45,21 @@ class AuthScreenViewModel @Inject constructor(
     override fun onAuth() {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
+
+            println(" username = ${_state.value.login}, password = ${_state.value.pass}")
+
             val result = authUseCase(
                 User(
-                    login = _state.value.login,
+                    username = _state.value.login,
                     password = _state.value.pass
                 )
             )
             _state.value = _state.value.copy(isLoading = false)
-            
-            when(result) {
+
+            when (result) {
                 is DomainResult.Success -> _events.send(Events.NavigateToMain)
-                is DomainResult.Error -> _state.value = 
-                    _state.value.copy(isError = true)
+
+                else -> _state.value = _state.value.copy(isError = true)
             }
         }
     }

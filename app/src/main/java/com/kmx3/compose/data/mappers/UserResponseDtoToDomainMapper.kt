@@ -5,7 +5,7 @@ import com.kmx3.compose.domain.models.User
 import javax.inject.Inject
 
 class UserResponseDtoToDomainMapper @Inject constructor() {
-    fun map(dto: UserResponseDto): User {
+/*    fun map(dto: UserResponseDto): User {
         return User(
             id = dto.id,
             firstName = dto.firstName,
@@ -20,5 +20,5 @@ class UserResponseDtoToDomainMapper @Inject constructor() {
     
     fun map(dtos: List<UserResponseDto>): List<User> {
         return dtos.map { map(it) }
-    }
+    }*/
 }
