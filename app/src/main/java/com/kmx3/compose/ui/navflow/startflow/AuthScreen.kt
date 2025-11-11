@@ -5,6 +5,7 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -111,9 +113,33 @@ fun AuthScreen(
                 .height(48.dp),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF990042)),
-            onClick = events::onAuth
+            onClick = events::onAuth,
+            enabled = !state.isLoading
         ) {
-            Text("Войти")
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                if (state.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(16.dp),
+                        strokeWidth = 2.dp,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.size(8.dp))
+                }
+                Text("Войти")
+            }
+        }
+
+        if (state.error != null) {
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = state.error,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
 
         Spacer(modifier = Modifier.height(18.dp))
@@ -173,7 +199,7 @@ fun AuthScreen(
 data class AuthScreenState(
     val login: String,
     val pass: String,
-    val isError: Boolean,
+    val error: String?,
     val canGoNext: Boolean,
     val isLoading: Boolean = false
 )
