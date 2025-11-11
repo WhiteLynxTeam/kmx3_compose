@@ -133,10 +133,10 @@ fun AuthScreen(
             }
         }
 
-        if (state.error != null) {
+        if (state.errorMessage != null) {
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = state.error,
+                text = state.errorMessage,
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -199,7 +199,7 @@ fun AuthScreen(
 data class AuthScreenState(
     val login: String,
     val pass: String,
-    val error: String?,
+    val errorMessage: String?,
     val canGoNext: Boolean,
     val isLoading: Boolean = false
 )
@@ -214,7 +214,7 @@ interface AuthScreenEvents {
 @Composable
 fun PreviewAuthScreen() {
     AuthScreen(
-        AuthScreenState(login = "", pass = "", isError = false, canGoNext = false),
+        AuthScreenState(login = "", pass = "", errorMessage = "", canGoNext = false),
         object : AuthScreenEvents {
             override fun onLoginEntered(name: String) {}
             override fun onPassEntered(name: String) {}

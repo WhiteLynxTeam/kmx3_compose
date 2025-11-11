@@ -23,7 +23,7 @@ class AuthScreenViewModel @Inject constructor(
             AuthScreenState(
                 "",
                 "",
-                error = null,
+                errorMessage = null,
                 canGoNext = false,
                 isLoading = false
             )
@@ -44,9 +44,7 @@ class AuthScreenViewModel @Inject constructor(
 
     override fun onAuth() {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true, error = null)
-
-            println(" username = ${_state.value.login}, password = ${_state.value.pass}")
+            _state.value = _state.value.copy(isLoading = true, errorMessage = null)
 
             val result = authUseCase(
                 User(
@@ -60,19 +58,19 @@ class AuthScreenViewModel @Inject constructor(
                 is DomainResult.Success -> _events.send(Events.NavigateToMain)
                 
                 is DomainResult.UnauthorizedError -> _state.value = _state.value.copy(
-                    error = "Неправильный логин или пароль"
+                    errorMessage = "Ошибка авторизации"
                 )
                 
                 is DomainResult.ServerError -> _state.value = _state.value.copy(
-                    error = "Ошибка сервера: ${result.code}"
+                    errorMessage = "Ошибка сервера: ${result.code}"
                 )
                 
                 is DomainResult.NetworkError -> _state.value = _state.value.copy(
-                    error = "Ошибка сети: ${result.message}"
+                    errorMessage = "Ошибка сети: ${result.message}"
                 )
                 
                 is DomainResult.ValidationError -> _state.value = _state.value.copy(
-                    error = "Ошибка валидации: ${result.message}"
+                    errorMessage = "Ошибка валидации: ${result.message}"
                 )
             }
         }

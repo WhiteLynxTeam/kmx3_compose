@@ -38,7 +38,7 @@ class UserRepositoryImpl @Inject constructor(
 
     private fun mapResponseError(response: Response<*>): DomainResult<String> =
         when (response.code()) {
-            401 -> DomainResult.UnauthorizedError
+            in 400..499 -> DomainResult.UnauthorizedError
             500 -> DomainResult.ServerError(500)
             else -> DomainResult.NetworkError(response.message() ?: "Unknown error")
         }
