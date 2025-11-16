@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kmx3.compose.domain.DomainResult
 import com.kmx3.compose.domain.models.User
-import com.kmx3.compose.domain.usecases.AuthApiUseCase
+import com.kmx3.compose.domain.usecases.LoginWithProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

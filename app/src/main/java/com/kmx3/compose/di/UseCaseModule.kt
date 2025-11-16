@@ -1,6 +1,7 @@
 package com.kmx3.compose.di
 
 import com.kmx3.compose.domain.irepositories.ITokensRepository
+import com.kmx3.compose.domain.irepositories.IUserProfileRepository
 import com.kmx3.compose.domain.irepositories.IUserRepository
 import com.kmx3.compose.domain.usecases.AuthApiUseCase
 import com.kmx3.compose.domain.usecases.GetUserInfoUseCase

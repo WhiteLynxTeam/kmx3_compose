@@ -1,5 +1,6 @@
 package com.kmx3.compose.data.repositories
 
+import com.kmx3.compose.data.mappers.InfoUserResponseToUserMapper
 import com.kmx3.compose.data.mappers.UserDomainToAuthRequestMapper
 import com.kmx3.compose.data.remote.api.SecureUserApi
 import com.kmx3.compose.data.remote.api.UserApi
@@ -12,7 +13,7 @@ import javax.inject.Named
 
 class UserRepositoryImpl @Inject constructor(
     @Named("auth") private val userApi: UserApi,
-    private val secureUserApi: SecureUserApi,
+    @Named("api") private val secureUserApi: SecureUserApi,
     private val userDomainToAuthRequestMapper: UserDomainToAuthRequestMapper,
     private val infoUserResponseToUserMapper: InfoUserResponseToUserMapper,
 ) : IUserRepository {

@@ -11,9 +11,10 @@ class TokenInterceptor @Inject constructor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val token = tokensRepository.tokenCache.value
+
         val requestBuilder = chain.request().newBuilder()
         token?.let {
-            requestBuilder.addHeader("Authorization", "Bearer $it")
+            requestBuilder.addHeader("Authorization", "Token $it")
         }
         return chain.proceed(requestBuilder.build())
     }

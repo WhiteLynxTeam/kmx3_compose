@@ -2,8 +2,10 @@ package com.kmx3.compose.di
 
 import com.kmx3.compose.data.repositories.UserRepositoryImpl
 import com.kmx3.compose.data.repositories.TokenRepositoryImpl
+import com.kmx3.compose.data.repositories.UserProfileRepositoryImpl
 import com.kmx3.compose.domain.irepositories.IUserRepository
 import com.kmx3.compose.domain.irepositories.ITokensRepository
+import com.kmx3.compose.domain.irepositories.IUserProfileRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

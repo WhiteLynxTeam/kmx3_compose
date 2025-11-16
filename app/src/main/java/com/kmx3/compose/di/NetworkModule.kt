@@ -44,10 +44,10 @@ object NetworkModule {
     @ApiOkHttpClient
     fun provideApiOkHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient =
         OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply { 
-                level = HttpLoggingInterceptor.Level.BODY 
-            })
             .addInterceptor (tokenInterceptor)
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
