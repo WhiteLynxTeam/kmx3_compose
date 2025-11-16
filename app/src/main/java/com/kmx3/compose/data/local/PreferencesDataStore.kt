@@ -20,9 +20,21 @@ class PreferencesDataStore @Inject constructor(
 ) {
     /*** Типобезопасный с явными методами для каждой сущности */
     private object PreferencesKeys {
+        // Ключи для токена
         val TOKEN_KEY = stringPreferencesKey("token")
+        
+        // Ключи для профиля пользователя
+        val USER_NAME_KEY = stringPreferencesKey("user_name")
+        val USER_FULL_NAME_KEY = stringPreferencesKey("user_full_name")
+        val USER_EMAIL_KEY = stringPreferencesKey("user_email")
+        val USER_PHONE_KEY = stringPreferencesKey("user_phone")
+        val USER_PHOTO_KEY = stringPreferencesKey("user_photo")
+        val USER_OFFICE_NAME_KEY = stringPreferencesKey("user_office_name")
+        val USER_OFFICE_LOCATION_KEY = stringPreferencesKey("user_office_location")
+        val USER_DEPARTMENT_KEY = stringPreferencesKey("user_department")
     }
 
+    // Методы для работы с токеном
     val token: Flow<String?> = context.dataStore.data
         .map { preferences ->
             preferences[PreferencesKeys.TOKEN_KEY]
@@ -37,6 +49,60 @@ class PreferencesDataStore @Inject constructor(
     suspend fun clearToken() {
         context.dataStore.edit { preferences ->
             preferences.remove(PreferencesKeys.TOKEN_KEY)
+        }
+    }
+
+    // Методы для работы с профилем пользователя
+    val userProfile: Flow<User?> = context.dataStore.data
+        .map { preferences ->
+            val username = preferences[PreferencesKeys.USER_NAME_KEY]
+            val fullName = preferences[PreferencesKeys.USER_FULL_NAME_KEY]
+            val email = preferences[PreferencesKeys.USER_EMAIL_KEY]
+            val phone = preferences[PreferencesKeys.USER_PHONE_KEY]
+            val photo = preferences[PreferencesKeys.USER_PHOTO_KEY]
+            val officeName = preferences[PreferencesKeys.USER_OFFICE_NAME_KEY]
+            val officeLocation = preferences[PreferencesKeys.USER_OFFICE_LOCATION_KEY]
+            val department = preferences[PreferencesKeys.USER_DEPARTMENT_KEY]
+
+            if (username != null) {
+                User(
+                    username = username,
+                    fullName = fullName,
+                    email = email,
+                    phone = phone,
+                    photo = photo,
+                    officeName = officeName,
+                    officeLocation = officeLocation,
+                    department = department
+                )
+            } else {
+                null
+            }
+        }
+
+    suspend fun saveUserProfile(user: User) {
+        context.dataStore.edit { preferences ->
+            user.username?.let { preferences[PreferencesKeys.USER_NAME_KEY] = it }
+            user.fullName?.let { preferences[PreferencesKeys.USER_FULL_NAME_KEY] = it }
+            user.email?.let { preferences[PreferencesKeys.USER_EMAIL_KEY] = it }
+            user.phone?.let { preferences[PreferencesKeys.USER_PHONE_KEY] = it }
+            user.photo?.let { preferences[PreferencesKeys.USER_PHOTO_KEY] = it }
+            user.officeName?.let { preferences[PreferencesKeys.USER_OFFICE_NAME_KEY] = it }
+            user.officeLocation?.let { preferences[PreferencesKeys.USER_OFFICE_LOCATION_KEY] = it }
+            user.department?.let { preferences[PreferencesKeys.USER_DEPARTMENT_KEY] = it }
+        }
+    }
+
+    suspend fun clearUserProfile() {
+        context.dataStore.edit { preferences ->
+            preferences.remove(PreferencesKeys.USER_NAME_KEY)
+            preferences.remove(PreferencesKeys.USER_FULL_NAME_KEY)
+            preferences.remove(PreferencesKeys.USER_EMAIL_KEY)
+            preferences.remove(PreferencesKeys.USER_PHONE_KEY)
+            preferences.remove(PreferencesKeys.USER_PHOTO_KEY)
+            preferences.remove(PreferencesKeys.USER_OFFICE_NAME_KEY)
+            preferences.remove(PreferencesKeys.USER_OFFICE_LOCATION_KEY)
+            preferences.remove(PreferencesKeys.USER_DEPARTMENT_KEY)
         }
     }
 

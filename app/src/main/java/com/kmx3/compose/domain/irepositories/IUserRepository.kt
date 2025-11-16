@@ -8,4 +8,5 @@ import com.kmx3.compose.domain.models.User
  */
 interface IUserRepository {
     suspend fun auth(user: User): DomainResult<String>
+    suspend fun getUserInfo(): DomainResult<User>
 }

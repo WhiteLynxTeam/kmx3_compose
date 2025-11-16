@@ -1,6 +1,7 @@
 package com.kmx3.compose.data.repositories
 
 import com.kmx3.compose.data.mappers.UserDomainToAuthRequestMapper
+import com.kmx3.compose.data.remote.api.SecureUserApi
 import com.kmx3.compose.data.remote.api.UserApi
 import com.kmx3.compose.domain.DomainResult
 import com.kmx3.compose.domain.irepositories.IUserRepository
@@ -11,7 +12,9 @@ import javax.inject.Named
 
 class UserRepositoryImpl @Inject constructor(
     @Named("auth") private val userApi: UserApi,
+    private val secureUserApi: SecureUserApi,
     private val userDomainToAuthRequestMapper: UserDomainToAuthRequestMapper,
+    private val infoUserResponseToUserMapper: InfoUserResponseToUserMapper,
 ) : IUserRepository {
 
     /*[red]  Исправить на возврат Токена модели домен слоя*/
@@ -32,6 +35,26 @@ class UserRepositoryImpl @Inject constructor(
             else -> {
                 val token = response.body()?.token ?: return DomainResult.ValidationError("Token not found")
                 DomainResult.Success(token)
+            }
+        }
+    }
+
+    override suspend fun getUserInfo(): DomainResult<User> {
+        val response = secureUserApi.info()
+        return if (response.isSuccessful) {
+            val userInfoList = response.body()
+            if (!userInfoList.isNullOrEmpty()) {
+                val userInfo = userInfoList[0] // Предполагаем, что возвращается список, берем первого
+                val user = infoUserResponseToUserMapper.map(userInfo)
+                DomainResult.Success(user)
+            } else {
+                DomainResult.ValidationError("User info not found in response")
+            }
+        } else {
+            when (response.code()) {
+                401 -> DomainResult.UnauthorizedError
+                500 -> DomainResult.ServerError(500)
+                else -> DomainResult.NetworkError("Error code: ${response.code()}")
             }
         }
     }

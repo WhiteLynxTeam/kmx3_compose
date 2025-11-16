@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthScreenViewModel @Inject constructor(
-    private val authUseCase: AuthApiUseCase
+    private val loginWithProfileUseCase: LoginWithProfileUseCase
 ) : ViewModel(), AuthScreenEvents {
 
     private val _state =
@@ -46,7 +46,7 @@ class AuthScreenViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true, errorMessage = null)
 
-            val result = authUseCase(
+            val result = loginWithProfileUseCase(
                 User(
                     username = _state.value.login,
                     password = _state.value.pass
