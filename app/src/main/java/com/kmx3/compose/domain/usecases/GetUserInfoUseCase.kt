@@ -1,18 +1,14 @@
 package com.kmx3.compose.domain.usecases
 
-import com.kmx3.compose.data.remote.api.SecureUserApi
-import com.kmx3.compose.domain.irepositories.ITokensRepository
-import kotlinx.coroutines.flow.firstOrNull
+import com.kmx3.compose.domain.DomainResult
+import com.kmx3.compose.domain.irepositories.IUserRepository
+import com.kmx3.compose.domain.models.User
 import javax.inject.Inject
 
 class GetUserInfoUseCase @Inject constructor(
-//    private val secureUserApi: SecureUserApi,
-    private val tokensRepository: ITokensRepository
+    private val userRepository: IUserRepository
 ) {
-    suspend operator fun invoke() {
-/*        =
-        tokensRepository.token.firstOrNull()?.let { token ->
-            secureUserApi.info("Bearer ${token.value}")
-        }*/
+    suspend operator fun invoke(): DomainResult<User> {
+        return userRepository.getUserInfo()
     }
 }

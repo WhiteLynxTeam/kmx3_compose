@@ -1,9 +1,11 @@
 package com.kmx3.compose.di
 
 import com.kmx3.compose.domain.irepositories.ITokensRepository
+import com.kmx3.compose.domain.irepositories.IUserProfileRepository
 import com.kmx3.compose.domain.irepositories.IUserRepository
 import com.kmx3.compose.domain.usecases.AuthApiUseCase
 import com.kmx3.compose.domain.usecases.GetUserInfoUseCase
+import com.kmx3.compose.domain.usecases.LoginWithProfileUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,9 +28,20 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideGetUserInfoUseCase(
-//        secureUserApi: SecureUserApi,
-        tokensRepository: ITokensRepository
+        userRepository: IUserRepository
     ): GetUserInfoUseCase {
-        return GetUserInfoUseCase(tokensRepository)
+        return GetUserInfoUseCase(userRepository)
+    }
+    
+    @Provides
+    @Singleton
+    fun provideLoginWithProfileUseCase(
+        userRepository: IUserRepository,
+        tokensRepository: ITokensRepository,
+        userProfileRepository: IUserProfileRepository,
+        authApiUseCase: AuthApiUseCase,
+        getUserInfoUseCase: GetUserInfoUseCase
+    ): LoginWithProfileUseCase {
+        return LoginWithProfileUseCase(userRepository, tokensRepository, userProfileRepository, authApiUseCase, getUserInfoUseCase)
     }
 }

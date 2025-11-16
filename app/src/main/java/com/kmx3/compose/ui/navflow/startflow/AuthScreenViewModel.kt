@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kmx3.compose.domain.DomainResult
 import com.kmx3.compose.domain.models.User
-import com.kmx3.compose.domain.usecases.AuthApiUseCase
+import com.kmx3.compose.domain.usecases.LoginWithProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthScreenViewModel @Inject constructor(
-    private val authUseCase: AuthApiUseCase
+    private val loginWithProfileUseCase: LoginWithProfileUseCase
 ) : ViewModel(), AuthScreenEvents {
 
     private val _state =
@@ -46,7 +46,7 @@ class AuthScreenViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true, errorMessage = null)
 
-            val result = authUseCase(
+            val result = loginWithProfileUseCase(
                 User(
                     username = _state.value.login,
                     password = _state.value.pass
