@@ -14,7 +14,7 @@ class LoginWithProfileUseCase @Inject constructor(
     private val authApiUseCase: AuthApiUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase
 ) {
-    suspend operator fun invoke(user: User): DomainResult<User> {
+    suspend operator fun invoke(user: User): DomainResult<Unit> {
         // Сначала аутентифицируем пользователя
         val authResult = authApiUseCase(user)
         
@@ -27,14 +27,14 @@ class LoginWithProfileUseCase @Inject constructor(
                     is DomainResult.Success -> {
                         // Сохраняем профиль пользователя в локальное хранилище
                         userProfileRepository.saveUserProfile(userInfoResult.data)
-                        userInfoResult
+                        DomainResult.Success(Unit)
                     }
-                    else -> userInfoResult
+                    else -> userInfoResult as DomainResult<Unit>
                 }
             }
             else -> {
                 // Если аутентификация не удалась, возвращаем ошибку
-                authResult as DomainResult<User>
+                authResult as DomainResult<Unit>
             }
         }
     }
