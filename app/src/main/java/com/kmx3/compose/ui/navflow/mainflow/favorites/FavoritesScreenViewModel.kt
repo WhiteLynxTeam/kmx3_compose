@@ -12,7 +12,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoritesScreenViewModel @Inject constructor() : ViewModel(), FavoritesScreenEvents {
+class FavoritesScreenViewModel @Inject constructor(
+    private val userProfileRepository: IUserProfileRepository
+) : ViewModel(), FavoritesScreenEvents {
 
     private val _state =
         MutableStateFlow(
@@ -23,6 +25,8 @@ class FavoritesScreenViewModel @Inject constructor() : ViewModel(), FavoritesScr
         )
 
     val state = _state.asStateFlow()
+
+    val userProfile = userProfileRepository.userProfile
 
     private val _events = Channel<Events>()
     val events = _events.receiveAsFlow()

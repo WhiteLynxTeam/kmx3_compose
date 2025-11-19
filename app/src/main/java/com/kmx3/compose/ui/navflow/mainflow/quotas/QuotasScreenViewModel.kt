@@ -12,7 +12,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class QuotasScreenViewModel @Inject constructor() : ViewModel(), QuotasScreenEvents {
+class QuotasScreenViewModel @Inject constructor(
+    private val userProfileRepository: IUserProfileRepository
+) : ViewModel(), QuotasScreenEvents {
 
     private val _state =
         MutableStateFlow(
@@ -23,6 +25,8 @@ class QuotasScreenViewModel @Inject constructor() : ViewModel(), QuotasScreenEve
         )
 
     val state = _state.asStateFlow()
+
+    val userProfile = userProfileRepository.userProfile
 
     private val _events = Channel<Events>()
     val events = _events.receiveAsFlow()

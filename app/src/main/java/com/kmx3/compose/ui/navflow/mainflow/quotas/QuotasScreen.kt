@@ -46,7 +46,9 @@ import com.kmx3.compose.ui.theme.Bordo
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuotasScreen(
-    state: QuotasScreenState, events: QuotasScreenEvents
+    state: QuotasScreenState, 
+    events: QuotasScreenEvents,
+    userProfile: com.kmx3.compose.domain.models.User?
 ) {
     BackHandler(enabled = true) {}
     val periods = listOf("Неделя", "Месяц", "Год")
@@ -83,8 +85,12 @@ fun QuotasScreen(
         }
     }
 
+    val userName = userProfile?.fullName ?: userProfile?.username ?: "Пользователь"
+    val date = java.text.SimpleDateFormat("EEEE, d MMMM yyyy 'года'", java.util.Locale("ru")).format(java.util.Date())
+        .replaceFirstChar { it.uppercase() }
+
     Scaffold(
-        topBar = { UserProfileTopBar() },
+        topBar = { UserProfileTopBar(name = userName, date = date) },
         bottomBar = {
             BottomMenu(
                 selected = MainFlowNavigation.Routes.QuotasScreen,

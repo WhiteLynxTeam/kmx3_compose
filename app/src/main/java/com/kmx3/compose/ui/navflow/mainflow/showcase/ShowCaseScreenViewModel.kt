@@ -12,7 +12,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ShowCaseScreenViewModel @Inject constructor() : ViewModel(), ShowcaseScreenEvents {
+class ShowCaseScreenViewModel @Inject constructor(
+    private val userProfileRepository: IUserProfileRepository
+) : ViewModel(), ShowcaseScreenEvents {
 
     private val _state =
         MutableStateFlow(
@@ -23,6 +25,8 @@ class ShowCaseScreenViewModel @Inject constructor() : ViewModel(), ShowcaseScree
         )
 
     val state = _state.asStateFlow()
+
+    val userProfile = userProfileRepository.userProfile
 
     private val _events = Channel<Events>()
     val events = _events.receiveAsFlow()

@@ -54,7 +54,9 @@ import com.kmx3.compose.ui.theme.Bordo
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InvitationsScreen(
-    state: InvitationsScreenState, events: InvitationsScreenEvents
+    state: InvitationsScreenState, 
+    events: InvitationsScreenEvents,
+    userProfile: com.kmx3.compose.domain.models.User?
 ) {
     BackHandler(enabled = true) {}
     val candidates = listOf(
@@ -75,8 +77,12 @@ fun InvitationsScreen(
         )
     )
 
+    val userName = userProfile?.fullName ?: userProfile?.username ?: "Пользователь"
+    val date = java.text.SimpleDateFormat("EEEE, d MMMM yyyy 'года'", java.util.Locale("ru")).format(java.util.Date())
+        .replaceFirstChar { it.uppercase() }
+
     Scaffold(
-        topBar = { UserProfileTopBar() },
+        topBar = { UserProfileTopBar(name = userName, date = date) },
         bottomBar = {
             BottomMenu(
                 selected = MainFlowNavigation.Routes.InvitationsScreen,
