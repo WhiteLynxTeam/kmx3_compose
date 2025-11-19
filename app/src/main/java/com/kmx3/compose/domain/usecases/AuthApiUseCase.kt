@@ -9,11 +9,14 @@ class AuthApiUseCase(
     private val userRepository: IUserRepository,
     private val tokensRepository: ITokensRepository,
 ) {
-    suspend operator fun invoke(user: User): DomainResult<String> {
+    suspend operator fun invoke(user: User): DomainResult<Unit> {
         val result = userRepository.auth(user)
-        if (result is DomainResult.Success) {
-            tokensRepository.saveToken(result.data)
+        return when (result) {
+            is DomainResult.Success -> {
+                tokensRepository.saveToken(result.data)
+                DomainResult.Success(Unit)
+            }
+            else -> result as DomainResult<Unit>
         }
-        return result
     }
 }
