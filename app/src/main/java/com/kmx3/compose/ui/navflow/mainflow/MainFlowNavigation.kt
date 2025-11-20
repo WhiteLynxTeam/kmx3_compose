@@ -45,7 +45,7 @@ class MainFlowNavigation(
                 }
 
                 val state by viewModel.state.collectAsState()
-                val userProfile by viewModel.userProfile.collectAsState()
+                val userProfile by viewModel.userProfile.collectAsState(initial = null)
                 ShowcaseScreen(state, viewModel, userProfile)
             }
             composable(Routes.FavoritesScreen.route) {
@@ -63,7 +63,7 @@ class MainFlowNavigation(
                 }
 
                 val state by viewModel.state.collectAsState()
-                val userProfile by viewModel.userProfile.collectAsState()
+                val userProfile by viewModel.userProfile.collectAsState(initial = null)
                 FavoritesScreen(state, viewModel, userProfile)
 
 /*                FavoritesScreen(
@@ -90,7 +90,7 @@ class MainFlowNavigation(
                 }
 
                 val state by viewModel.state.collectAsState()
-                val userProfile by viewModel.userProfile.collectAsState()
+                val userProfile by viewModel.userProfile.collectAsState(initial = null)
                 InvitationsScreen(state, viewModel, userProfile)
 /*                InvitationsScreen(
                     events = object : InvitationsScreenEvents {
@@ -116,7 +116,7 @@ class MainFlowNavigation(
                 }
 
                 val state by viewModel.state.collectAsState()
-                val userProfile by viewModel.userProfile.collectAsState()
+                val userProfile by viewModel.userProfile.collectAsState(initial = null)
                 QuotasScreen(state, viewModel, userProfile)
 /*                QuotasScreen(
                     events = object : QuotasScreenEvents {

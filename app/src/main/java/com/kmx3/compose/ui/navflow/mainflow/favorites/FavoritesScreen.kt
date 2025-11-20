@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kmx3.compose.R
+import com.kmx3.compose.domain.models.User
 import com.kmx3.compose.ui.models.Candidate
 import com.kmx3.compose.ui.navflow.mainflow.MainFlowNavigation
 import com.kmx3.compose.ui.navflow.mainflow.main_navigation.UserProfileTopBar
@@ -52,7 +53,7 @@ import com.kmx3.compose.ui.theme.Bordo
 fun FavoritesScreen(
     state: FavoritesScreenState, 
     events: FavoritesScreenEvents,
-    userProfile: com.kmx3.compose.domain.models.User?
+    userProfile: User?
 ) {
     BackHandler(enabled = true) {}
     val candidates = listOf(
@@ -308,6 +309,7 @@ fun PreviewInvitationsScreen() {
             override fun onSelectBottomMenu(item: MainFlowNavigation.Routes) {
             }
         },
-        state = FavoritesScreenState(value = "")
+        state = FavoritesScreenState(value = ""),
+        userProfile = null
     )
 }
