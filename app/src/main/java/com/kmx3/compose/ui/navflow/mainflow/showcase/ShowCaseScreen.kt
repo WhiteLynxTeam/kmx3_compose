@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kmx3.compose.R
+import com.kmx3.compose.common.extensions.getCurrentRussianDate
 import com.kmx3.compose.domain.models.User
 import com.kmx3.compose.ui.models.Candidate
 import com.kmx3.compose.ui.navflow.mainflow.MainFlowNavigation
@@ -176,8 +177,7 @@ fun ShowcaseScreen(
     val candidatesCount = 5
 
     val userName = userProfile?.fullName ?: userProfile?.username ?: "Пользователь"
-    val date = java.text.SimpleDateFormat("EEEE, d MMMM yyyy 'года'", java.util.Locale("ru")).format(java.util.Date())
-        .replaceFirstChar { it.uppercase() }
+    val date = getCurrentRussianDate()
 
     Scaffold(
         topBar = { UserProfileTopBar(name = userName, date = date) },
