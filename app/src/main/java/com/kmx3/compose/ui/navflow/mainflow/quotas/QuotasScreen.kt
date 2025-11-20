@@ -38,6 +38,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kmx3.compose.R
+import com.kmx3.compose.common.extensions.getCurrentRussianDate
+import com.kmx3.compose.domain.models.User
 import com.kmx3.compose.ui.navflow.mainflow.MainFlowNavigation
 import com.kmx3.compose.ui.navflow.mainflow.main_navigation.UserProfileTopBar
 import com.kmx3.compose.ui.navflow.mainflow.menu.BottomMenu
@@ -46,7 +48,9 @@ import com.kmx3.compose.ui.theme.Bordo
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuotasScreen(
-    state: QuotasScreenState, events: QuotasScreenEvents
+    state: QuotasScreenState, 
+    events: QuotasScreenEvents,
+    userProfile: User?
 ) {
     BackHandler(enabled = true) {}
     val periods = listOf("Неделя", "Месяц", "Год")
@@ -83,8 +87,11 @@ fun QuotasScreen(
         }
     }
 
+    val userName = userProfile?.fullName ?: userProfile?.username ?: "Пользователь"
+    val date = getCurrentRussianDate()
+
     Scaffold(
-        topBar = { UserProfileTopBar() },
+        topBar = { UserProfileTopBar(name = userName, date = date) },
         bottomBar = {
             BottomMenu(
                 selected = MainFlowNavigation.Routes.QuotasScreen,
@@ -194,6 +201,8 @@ fun PreviewQuotasScreen() {
             override fun onSelectBottomMenu(item: MainFlowNavigation.Routes) {
             }
         },
-        state = QuotasScreenState(value = "")
+        state = QuotasScreenState(value = ""),
+        userProfile = null
+
     )
 }

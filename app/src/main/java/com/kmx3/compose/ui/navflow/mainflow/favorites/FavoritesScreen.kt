@@ -37,6 +37,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kmx3.compose.R
+import com.kmx3.compose.common.extensions.getCurrentRussianDate
+import com.kmx3.compose.domain.models.User
 import com.kmx3.compose.ui.models.Candidate
 import com.kmx3.compose.ui.navflow.mainflow.MainFlowNavigation
 import com.kmx3.compose.ui.navflow.mainflow.main_navigation.UserProfileTopBar
@@ -50,7 +52,9 @@ import com.kmx3.compose.ui.theme.Bordo
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoritesScreen(
-    state: FavoritesScreenState, events: FavoritesScreenEvents
+    state: FavoritesScreenState, 
+    events: FavoritesScreenEvents,
+    userProfile: User?
 ) {
     BackHandler(enabled = true) {}
     val candidates = listOf(
@@ -167,8 +171,11 @@ fun FavoritesScreen(
     var showFilterSheet by remember { mutableStateOf(false) } // For filter sheet
     var showSortSheet by remember { mutableStateOf(false) }
 
+    val userName = userProfile?.fullName ?: userProfile?.username ?: "Пользователь"
+    val date = getCurrentRussianDate()
+
     Scaffold(
-        topBar = { UserProfileTopBar() },
+        topBar = { UserProfileTopBar(name = userName, date = date) },
         bottomBar = {
             BottomMenu(
                 selected = MainFlowNavigation.Routes.FavoritesScreen,
@@ -302,6 +309,7 @@ fun PreviewInvitationsScreen() {
             override fun onSelectBottomMenu(item: MainFlowNavigation.Routes) {
             }
         },
-        state = FavoritesScreenState(value = "")
+        state = FavoritesScreenState(value = ""),
+        userProfile = null
     )
 }

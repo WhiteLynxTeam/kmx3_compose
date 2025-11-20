@@ -45,7 +45,8 @@ class MainFlowNavigation(
                 }
 
                 val state by viewModel.state.collectAsState()
-                ShowcaseScreen(state, viewModel)
+                val userProfile by viewModel.userProfile.collectAsState(initial = null)
+                ShowcaseScreen(state, viewModel, userProfile)
             }
             composable(Routes.FavoritesScreen.route) {
                 val viewModel = hiltViewModel<FavoritesScreenViewModel>()
@@ -62,7 +63,8 @@ class MainFlowNavigation(
                 }
 
                 val state by viewModel.state.collectAsState()
-                FavoritesScreen(state, viewModel)
+                val userProfile by viewModel.userProfile.collectAsState(initial = null)
+                FavoritesScreen(state, viewModel, userProfile)
 
 /*                FavoritesScreen(
                     events = object : FavoritesScreenEvents {
@@ -88,7 +90,8 @@ class MainFlowNavigation(
                 }
 
                 val state by viewModel.state.collectAsState()
-                InvitationsScreen(state, viewModel)
+                val userProfile by viewModel.userProfile.collectAsState(initial = null)
+                InvitationsScreen(state, viewModel, userProfile)
 /*                InvitationsScreen(
                     events = object : InvitationsScreenEvents {
                         override fun onRequestQuota() {
@@ -113,7 +116,8 @@ class MainFlowNavigation(
                 }
 
                 val state by viewModel.state.collectAsState()
-                QuotasScreen(state, viewModel)
+                val userProfile by viewModel.userProfile.collectAsState(initial = null)
+                QuotasScreen(state, viewModel, userProfile)
 /*                QuotasScreen(
                     events = object : QuotasScreenEvents {
                         override fun onRequestQuota() {

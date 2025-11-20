@@ -2,6 +2,7 @@ package com.kmx3.compose.ui.navflow.mainflow.invitations
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kmx3.compose.domain.irepositories.IUserProfileRepository
 import com.kmx3.compose.ui.navflow.mainflow.MainFlowNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -12,7 +13,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class InvitationsScreenViewModel @Inject constructor() : ViewModel(), InvitationsScreenEvents {
+class InvitationsScreenViewModel @Inject constructor(
+    private val userProfileRepository: IUserProfileRepository
+) : ViewModel(), InvitationsScreenEvents {
 
     private val _state =
         MutableStateFlow(
@@ -23,6 +26,8 @@ class InvitationsScreenViewModel @Inject constructor() : ViewModel(), Invitation
         )
 
     val state = _state.asStateFlow()
+
+    val userProfile = userProfileRepository.userProfile
 
     private val _events = Channel<Events>()
     val events = _events.receiveAsFlow()

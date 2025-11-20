@@ -45,7 +45,7 @@ import java.util.Locale
 
 @Composable
 fun UserProfileTopBar(
-    name: String = "Колесникова Мария",
+    name: String = "Пользователь",
     date: String = SimpleDateFormat("EEEE, d MMMM yyyy 'года'", Locale("ru")).format(Date())
         .replaceFirstChar { it.uppercase() },
     onBellClick: () -> Unit = {},
